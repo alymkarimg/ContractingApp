@@ -6,12 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"./{components,lib,pages,public,styles}/**/*.{ts,tsx,js,json,html,css}\"",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "mongoose": "^6.8.0",
+    "next": "latest",
+    "next-sitemap": "^3.1.32",
+    "prettier": "^2.8.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "13.5.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "typescript": "^5",
