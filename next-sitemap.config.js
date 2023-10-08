@@ -1,6 +1,10 @@
 const { SITE_URL } = process.env;
+const env = require('@next/env')
+
+env.loadEnvConfig(process.cwd(), process.env.NODE_ENV === 'development')
+
 if (!SITE_URL) {
-    throw new Error('Invalid/Missing environment variable: "SITEMAP_URL"')
+    throw new Error('Invalid/Missing environment variable: "SITE_URL"')
 }
 
 module.exports = {
