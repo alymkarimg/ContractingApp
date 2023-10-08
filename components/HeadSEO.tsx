@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import Head from "next/head";
 
 export default function HeadSEO({
@@ -40,7 +41,7 @@ export default function HeadSEO({
       {/* Structured data. */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: structuredData }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(structuredData) }}
         key="item-jsonld"
       />
       {children}
