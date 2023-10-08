@@ -25,7 +25,7 @@ export default function HeadSEO({
       <meta name="description" content={siteDescription} />
       <link rel="canonical" href={siteCanonicalUrl} />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="favicon.ico" />
       <link rel="apple-touch-icon" href={siteLogo} />
 
       {/* Open graph meta tags. */}
