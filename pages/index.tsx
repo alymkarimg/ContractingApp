@@ -4,10 +4,12 @@ import JobUploadForm from '@/components/Forms/JobUploadForm';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { req } = context;
+  console.log(req)
   let url = req.headers.referer;
   let arr = url!.split('/');
   url = `${arr[0]}//${arr[2]}`;
   const res = await fetch(`${url}/api/`);
+  console.log(res)
   const data: IResponse = await res.json();
   return { props: { data } };
 };
