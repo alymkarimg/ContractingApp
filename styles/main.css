@@ -8,7 +8,7 @@
 }
 
 .container .form__container {
-    width: 70rem;
+  width: 70rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,8 +19,8 @@
 }
 
 main {
-padding-top: 1rem;
-padding-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -82,7 +82,6 @@ a {
   display: flex;
   flex-direction: column;
 }
-
 
 .name {
   display: flex;
@@ -156,7 +155,6 @@ textarea {
   border-radius: 6px;
 }
 
-
 /* react datepicker */
 .react-datepicker__input-container input {
   width: 98.5%;
@@ -195,7 +193,6 @@ textarea {
   .react-datepicker__input-container input {
     width: 95%;
   }
-
 }
 
 /* large mobile */
@@ -208,7 +205,3 @@ textarea {
     width: 94%;
   }
 }
-
-
-
-

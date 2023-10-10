@@ -1,19 +1,24 @@
+import { GetServerSidePropsContext } from 'next';
 import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
 
-export async function getServerSideProps() {
-  const res = await fetch(`${process.env.API_BASEURL}`);
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const { req } = context;
+  let url = req.headers.referer;
+  let arr = url!.split('/');
+  url = `${arr[0]}//${arr[2]}`;
+  const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
   return { props: { data } };
-}
+};
 
 export default function Home({ data }: { data: IResponse }) {
   return (
-    <main >
+    <main>
       <div className="container">
-      <h1 className="page__title">Contracting App</h1>
-      <h2>Job Upload</h2>
-      <JobUploadForm />
+        <h1 className="page__title">Contracting App</h1>
+        <h2>Job Upload</h2>
+        <JobUploadForm />
       </div>
       <footer>
         <p>
