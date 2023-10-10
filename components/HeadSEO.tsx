@@ -1,5 +1,4 @@
-import DOMPurify from "dompurify";
-import Head from "next/head";
+import Head from 'next/head';
 
 export default function HeadSEO({
   siteAuthor = process.env.SITE_AUTHOR,
@@ -14,7 +13,7 @@ export default function HeadSEO({
   children,
 }: any) {
   const structuredData = JSON.stringify({
-    "@context": `${siteCanonicalUrl}/`,
+    '@context': `${siteCanonicalUrl}/`,
     description: siteDescription,
   });
 
@@ -39,11 +38,7 @@ export default function HeadSEO({
       <meta property="og:url" content={siteUrl} />
 
       {/* Structured data. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(structuredData) }}
-        key="item-jsonld"
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} key="item-jsonld" />
       {children}
     </Head>
   );

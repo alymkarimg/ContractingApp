@@ -1,14 +1,15 @@
-@import "normalize.css";
+@import 'normalize.css';
 
 :root {
-  --primary: #009688;
-  --white: #ffffff;
-  --black: #000000;
+  --gradient: linear-gradient(315deg, #E9B7CEff, #E5C1D4ff, #E2CBDAff, #DED5E0ff, #DADFE5ff, #D7E9EBff, #D3F3F1ff);
+  --primary: #714674;
+  --white:  #fcf8f8;
+  --black: #111111;
   --green-500: #8bc34a;
   --orange-500: #ff9800;
   --red-500: #f44336;
   --grey-300: #e0e0e0;
-  --grey-500: #9e9e9e;
+  --grey-500: #cbcbcb;
   --grey-900: #212121;
   --shadow-25: rgb(0 0 0 / 25%);
   --shadow-45: rgb(0 0 0 / 45%);
@@ -24,7 +25,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: var(--black);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -37,6 +38,10 @@ body {
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+/* SCSS Gradient */
+background:var(--gradient);
+
 }
 
 a {
@@ -52,6 +57,7 @@ a:hover {
 h1 {
   font-size: 1.25rem;
   margin-top: 0;
+  color: var(--primary);
 }
 
 h1 span,
@@ -63,11 +69,11 @@ h1 span a {
 }
 
 h1 span.rounded:before {
-  content: "(";
+  content: '(';
 }
 
 h1 span.rounded:after {
-  content: ")";
+  content: ')';
 }
 
 button {
@@ -137,7 +143,7 @@ table tr:nth-child(odd) td:last-child {
 }
 
 .error:before {
-  content: "Ein Fehler ist aufgetreten:\a";
+  content: 'An error occurred:\a';
   white-space: pre;
 }
 
@@ -145,8 +151,6 @@ input {
   accent-color: var(--primary);
 }
 
-input[type="search"] {
+input[type='search'] {
   outline: none;
 }
-
-
