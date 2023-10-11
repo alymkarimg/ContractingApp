@@ -13,7 +13,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       .replace('/', '-')
       .replace('_', '-')
   
-    if (currentBranch === 'master') {
+    if (currentBranch === 'main') {
       return process.env.WEB_URI // we have a production URL env in the project we are working on
     }
     return `https://contracting-app${currentBranch}.vercel.app`
