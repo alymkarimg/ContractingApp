@@ -1,8 +1,11 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
+import { LocationSearchBox } from '../LocationSearchBox';
 
-export default function Page() {
+export default function Page(props: any) {
+  const { apiKey } = props;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,27 +42,27 @@ export default function Page() {
       {error && <div className="error">{error}</div>}
       <form onSubmit={onSubmit} className="form__container">
         <div className="title block">
-          <label htmlFor="frm-title">Title</label>
+          <label htmlFor="frm-title">Title:</label>
           <input id="frm-title" type="text" name="title" required className="no-margin-front" />
         </div>
         <div className="location block">
-          <label htmlFor="frm-location">Location</label>
-          <input id="frm-location" type="text" name="location" required className="no-margin-front" />
+          <label htmlFor="frm-location">Location:</label>
+          <LocationSearchBox apiKey={apiKey} />
         </div>
         <div className="datetime block">
-          <label>Date and Time</label>
+          <label>Date and Time of Job:</label>
           <DateRange />
         </div>
         <div className="pay block">
-          <label>Pay (Per Hour)</label>
+          <label>Pay (Per Hour):</label>
           <SingleThumbRangeSlider />
         </div>
         <div className="occupation block">
-          <label htmlFor="frm-occupation">Occupation</label>
+          <label htmlFor="frm-occupation">Occupation Required:</label>
           <input id="frm-occupation" type="text" name="title" required className="no-margin-front" />
         </div>
         <div className="description block">
-          <label htmlFor="frm-description">Job Description</label>
+          <label htmlFor="frm-description">Job Description:</label>
           <textarea id="frm-description" rows={6} name="description"></textarea>
         </div>
         <div className="button block">
