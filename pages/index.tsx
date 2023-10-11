@@ -10,7 +10,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     let arr = url!.split('/');
     url =  `${arr[0]}//${arr[2]}`;
   } else {
-    url = process.env.NEXT_PUBLIC_VERCEL_URL 
+    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
   }
   const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
