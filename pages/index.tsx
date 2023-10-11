@@ -3,24 +3,10 @@ import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const isProd = String(process.env.NODE_ENV) === 'production'
-  const isDev = String(process.env.NODE_ENV) === 'development'
-  
-  const LOCAL_HOST = 'http://localhost:3000'
-  
-  const getProdPath = () => {
-    const currentBranch = process.env.VERCEL_GITHUB_COMMIT_REF!.toLowerCase()
-      .replace('/', '-')
-      .replace('_', '-')
-  
-    if (currentBranch === 'main') {
-      return process.env.WEB_URI // we have a production URL env in the project we are working on
-    }
-    return `https://contracting-app${currentBranch}.vercel.app`
-  }
-  
-  const url = isProd ? getProdPath() : LOCAL_HOST
-  
+  const { req } = context;
+  let url = req.headers.referer;
+  let arr = url!.split('/');
+  url = process.env.NODE_ENV !== 'production' ? `${arr[0]}//${arr[2]}` : process.env.NEXT_PUBLIC_VERCEL_URL ;
   const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
   return { props: { data } };
