@@ -4,9 +4,14 @@ import JobUploadForm from '@/components/Forms/JobUploadForm';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { req } = context;
-  let url = req.headers.referer;
-  let arr = url!.split('/');
-  url = process.env.NODE_ENV !== 'production' ? `${arr[0]}//${arr[2]}` : process.env.NEXT_PUBLIC_VERCEL_URL ;
+  let url;
+  if(process.env.NODE_ENV !== 'production') {
+    url = req.headers.referer;
+    let arr = url!.split('/');
+    url =  `${arr[0]}//${arr[2]}`;
+  } else {
+    url = process.env.NEXT_PUBLIC_VERCEL_URL 
+  }
   const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
   return { props: { data } };
