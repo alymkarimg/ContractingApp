@@ -90,20 +90,23 @@ a {
 }
 
 .pay {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 10px;
 }
 
 .pay label {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 .container input {
   font-size: 1.2rem;
   margin: 10px 0 10px 0px;
+  border: 1px solid;
   border-color: rgb(31, 28, 28);
-  padding: 5px;
-  margin: 5px;
+  padding: 0.1rem;
+  height: 2rem;
   border-radius: 5px;
+  width: 100%;
   background-color: #e8f0fe;
 }
 
@@ -155,21 +158,12 @@ textarea {
   border-radius: 6px;
 }
 
-/* react datepicker */
-.react-datepicker__input-container input {
-  width: 98.5%;
-}
-
 /* Media queries */
 
 /* large laptop */
 @media screen and (max-device-width: 1440px), screen and (max-width: 1440px) {
   .container .form__container {
     width: 60rem;
-  }
-
-  .react-datepicker__input-container input {
-    width: 98.5%;
   }
 }
 
@@ -178,10 +172,6 @@ textarea {
   .container .form__container {
     width: 40rem;
   }
-
-  .react-datepicker__input-container input {
-    width: 97%;
-  }
 }
 
 /* large mobile */
@@ -189,19 +179,11 @@ textarea {
   .container .form__container {
     width: 23rem;
   }
-
-  .react-datepicker__input-container input {
-    width: 95%;
-  }
 }
 
 /* large mobile */
 @media screen and (max-device-width: 425px), screen and (max-width: 425px) {
   .container .form__container {
     width: 19rem;
-  }
-
-  .react-datepicker__input-container input {
-    width: 94%;
   }
 }

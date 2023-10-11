@@ -1,29 +1,28 @@
 import { GetServerSidePropsContext } from 'next';
 import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
+import { useEffect, useState } from 'react';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { req } = context;
   let url;
-  if(process.env.NODE_ENV !== 'production') {
-    url = req.headers.referer;
-    let arr = url!.split('/');
-    url =  `${arr[0]}//${arr[2]}`;
+  if (process.env.NODE_ENV !== 'production') {
+    url = 'http://localhost:3000';
   } else {
-    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
   }
   const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
-  return { props: { data } };
+  return { props: { data, apiKey: process.env.TOMTOM_API_KEY } };
 };
 
-export default function Home({ data }: { data: IResponse }) {
+export default function Home({ data, apiKey }: { data: IResponse; apiKey: string }) {
   return (
     <main>
       <div className="container">
         <h1 className="page__title">Contracting App</h1>
         <h2>Job Upload</h2>
-        <JobUploadForm />
+        <JobUploadForm apiKey={apiKey} />
       </div>
       <footer>
         <p>
