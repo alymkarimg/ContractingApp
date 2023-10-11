@@ -1,12 +1,13 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
+import HeadSEO from '@/components/HeadSEO';
+import '../styles/globals.css';
+import '../styles/main.css';
+import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <main>
-        <Component {...pageProps} />
-      </main>
+      <HeadSEO />
+      <Component {...pageProps} />
     </>
   );
 }
