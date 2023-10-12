@@ -69,7 +69,7 @@ export default function Page(props: any) {
         </div>
         <div className="occupation block">
           <label htmlFor="frm-occupation">Occupation Required:</label>
-          <Select options={formattedOptions} value={''} placeholder="Select an option" className="no-margin-front"  />;
+          <Select options={formattedOptions} placeholder="Select an option" className="no-margin-front"  />;
 
         </div>
         <div className="description block">
