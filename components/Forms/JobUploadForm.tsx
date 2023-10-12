@@ -2,9 +2,13 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
+import Select from 'react-select';
+import options from '../../data/occupation.json'
 
 export default function Page(props: any) {
-  const { apiKey } = props;
+
+
+  const { apiKey } = props
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +41,12 @@ export default function Page(props: any) {
     }
   }
 
+  function titleCase(string: string){
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+  const formattedOptions = options.map(q => { return { label: titleCase(q), value: q}}) as any
+
   return (
     <>
       {error && <div className="error">{error}</div>}
@@ -59,7 +69,8 @@ export default function Page(props: any) {
         </div>
         <div className="occupation block">
           <label htmlFor="frm-occupation">Occupation Required:</label>
-          <input id="frm-occupation" type="text" name="title" required className="no-margin-front" />
+          <Select options={formattedOptions} value={''} placeholder="Select an option" className="no-margin-front"  />;
+
         </div>
         <div className="description block">
           <label htmlFor="frm-description">Job Description:</label>
