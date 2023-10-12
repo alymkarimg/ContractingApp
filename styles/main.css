@@ -78,6 +78,14 @@ a {
   height: 1em;
 }
 
+.occupation label {
+  padding-bottom: 10px;
+}
+
+.description {
+  padding-top: 15px;
+}
+
 .block {
   display: flex;
   flex-direction: column;

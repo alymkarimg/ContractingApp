@@ -1,10 +1,13 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent, useEffect, useRef } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
+import Select from '../Select';
 
 export default function Page(props: any) {
-  const { apiKey } = props;
+
+
+  const { apiKey } = props
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +62,8 @@ export default function Page(props: any) {
         </div>
         <div className="occupation block">
           <label htmlFor="frm-occupation">Occupation Required:</label>
-          <input id="frm-occupation" type="text" name="title" required className="no-margin-front" />
+          <Select />
+
         </div>
         <div className="description block">
           <label htmlFor="frm-description">Job Description:</label>

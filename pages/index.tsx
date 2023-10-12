@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
-import { useEffect, useState } from 'react';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { req } = context;
