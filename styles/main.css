@@ -1,3 +1,18 @@
+:root {
+  --gradient: linear-gradient(315deg, #e9b7ceff, #e5c1d4ff, #e2cbdaff, #ded5e0ff, #dadfe5ff, #d7e9ebff, #d3f3f1ff);
+  --primary: #714674;
+  --white: #fcf8f8;
+  --black: #111111;
+  --green-500: #8bc34a;
+  --orange-500: #ff9800;
+  --red-500: #f44336;
+  --grey-300: #e0e0e0;
+  --grey-500: #cbcbcb;
+  --grey-900: #212121;
+  --shadow-25: rgb(0 0 0 / 25%);
+  --shadow-45: rgb(0 0 0 / 45%);
+}
+
 .container {
   position: relative;
   min-height: 100vh;
@@ -15,7 +30,7 @@
 }
 
 .error {
-  color: red;
+  color: var(--red-500);
 }
 
 main {
@@ -102,8 +117,26 @@ a {
   margin-bottom: 10px;
 }
 
+.pay input[type='range'] {
+  display: none;
+}
+
 .pay label {
   padding-bottom: 10px;
+}
+
+.pay .pay__labels {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.pay .pay__min,
+.pay .pay__value,
+.pay .pay__max {
+  background-color: var(--white);
+  padding: 0.5rem;
+  border-radius: 1rem;
 }
 
 .container input {

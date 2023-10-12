@@ -38,7 +38,7 @@ class Placefinder {
 }
 
 export const LocationSearchBox = (props: any) => {
-  const { apiKey } = props;
+  const { apiKey, name } = props;
 
   const [state, setState] = useState({
     geoLocation: {} as any,
@@ -86,6 +86,7 @@ export const LocationSearchBox = (props: any) => {
   return (
     <div id="frm-location" className="no-margin-front">
       <ReactSearchBox
+        name={name}
         data={results
           ?.map((result: { address: { freeformAddress: string }; id: any; poi: { name: any }; dist: any }) => ({
             key: result.id,

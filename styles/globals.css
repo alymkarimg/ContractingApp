@@ -141,11 +141,6 @@ table tr:nth-child(odd) td:last-child {
   border-left: 0.25rem solid var(--red-500);
 }
 
-.error:before {
-  content: 'An error occurred:\a';
-  white-space: pre;
-}
-
 input {
   accent-color: var(--primary);
 }
