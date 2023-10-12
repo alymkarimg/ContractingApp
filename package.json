@@ -20,7 +20,7 @@
     "react-datepicker": "^4.19.0",
     "react-dom": "^18",
     "react-range-slider-input": "^3.0.7",
-    "react-select": "^5.7.7"
+    "react-select": "5"
   },
   "devDependencies": {
     "@types/node": "^20",

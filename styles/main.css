@@ -82,6 +82,10 @@ a {
   padding-bottom: 10px;
 }
 
+.description {
+  padding-top: 15px;
+}
+
 .block {
   display: flex;
   flex-direction: column;
