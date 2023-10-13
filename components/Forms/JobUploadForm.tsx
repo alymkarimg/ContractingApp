@@ -1,16 +1,16 @@
-import React, { useState, FormEvent, useEffect, useRef } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
 import Select from '../Select';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Page(props: any) {
-
-
-  const { apiKey } = props
+  const { apiKey } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [pay, setPay] = useState(0);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,13 +19,16 @@ export default function Page(props: any) {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await fetch('/api/submit', {
+      formData.append('pay', pay.toString() ?? '');
+
+      const response = await fetch('/api', {
         method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit the data. Please try again.');
+        const errorText = await response.json();
+        throw new Error(errorText.message);
       }
 
       // Handle response if necessary
@@ -40,30 +43,32 @@ export default function Page(props: any) {
     }
   }
 
+  useEffect(() => {
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error! }} />);
+  }, [error]);
+
   return (
     <>
-      {error && <div className="error">{error}</div>}
       <form onSubmit={onSubmit} className="form__container">
         <div className="title block">
           <label htmlFor="frm-title">Title:</label>
-          <input id="frm-title" type="text" name="title" required className="no-margin-front" />
+          <input id="frm-title" type="text" name="title" className="no-margin-front" />
         </div>
         <div className="location block">
           <label htmlFor="frm-location">Location:</label>
-          <LocationSearchBox apiKey={apiKey} />
+          <LocationSearchBox name={'location'} apiKey={apiKey} />
         </div>
         <div className="datetime block">
-          <label>Date and Time of Job:</label>
-          <DateRange />
+          <label>Date and Time of job:</label>
+          <DateRange name={'datetime'} />
         </div>
         <div className="pay block">
           <label>Pay (Per Hour):</label>
-          <SingleThumbRangeSlider />
+          <SingleThumbRangeSlider name={'pay'} min={0} max={100} setValue={setPay} value={pay} />
         </div>
         <div className="occupation block">
           <label htmlFor="frm-occupation">Occupation Required:</label>
-          <Select />
-
+          <Select name={'occupation'} />
         </div>
         <div className="description block">
           <label htmlFor="frm-description">Job Description:</label>

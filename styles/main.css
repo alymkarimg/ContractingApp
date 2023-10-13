@@ -14,10 +14,6 @@
   flex-direction: column;
 }
 
-.error {
-  color: red;
-}
-
 main {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -33,7 +29,7 @@ footer {
   bottom: 0;
   width: 100%;
   height: 2.5rem;
-  border-top: 1px solid #eaeaea;
+  border-top: 0.06rem solid var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,7 +51,7 @@ a {
 }
 
 .title a {
-  color: #0070f3;
+  color: var(--primary);
   text-decoration: none;
 }
 
@@ -79,11 +75,18 @@ a {
 }
 
 .occupation label {
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
+}
+
+.occupation .occupation__select {
+  border: 0.06rem solid;
+  border-color: var(--black);
+  border-radius: 0.3rem;
+  background-color: var(--white);
 }
 
 .description {
-  padding-top: 15px;
+  padding-top: 0.9375rem;
 }
 
 .block {
@@ -98,24 +101,43 @@ a {
 }
 
 .pay {
-  padding: 10px 0px 10px 0px;
-  margin-bottom: 10px;
+  padding: 0.625rem 0 0.625rem 0;
+  margin-bottom: 0.625rem;
+}
+
+.pay input[type='range'] {
+  display: none;
 }
 
 .pay label {
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
+}
+
+.pay .pay__labels {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.625rem;
+}
+
+.pay .pay__min,
+.pay .pay__value,
+.pay .pay__max {
+  background-color: var(--white);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 0.06rem solid;
 }
 
 .container input {
   font-size: 1.2rem;
-  margin: 10px 0 10px 0px;
-  border: 1px solid;
-  border-color: rgb(31, 28, 28);
+  margin: 0.625rem 0 0.625rem 0;
+  border: 0.06rem solid;
+  border-color: var(--black);
+  border-radius: 0.3rem;
+  background-color: var(--white);
   padding: 0.1rem;
   height: 2rem;
-  border-radius: 5px;
   width: 100%;
-  background-color: #e8f0fe;
 }
 
 .container .no-margin-front {
@@ -123,12 +145,12 @@ a {
 }
 
 .container textarea {
-  margin: 10px 0 10px 0px;
-  padding: 5px;
-  border-color: rgb(31, 28, 28);
-  border-radius: 5px;
-  background-color: #e8f0fe;
-  font-size: 20px;
+  margin: 0.625rem 0 0.625rem 0;
+  padding: 0.3rem;
+  border-color: var(--black);
+  border-radius: 0.3rem;
+  background-color: var(--white);
+  font-size: 1.3rem;
 }
 
 .container h1 {
@@ -142,11 +164,10 @@ a {
 }
 
 .block button {
-  padding: 10px;
-  font-size: 20px;
-  width: 30%;
-  border: 3px solid black;
-  border-radius: 5px;
+  padding: 0.625rem;
+  font-size: 1.3rem;
+  border: 0.19rem solid black;
+  border-radius: 0.3rem;
 }
 
 .button {
@@ -156,6 +177,8 @@ a {
 
 textarea {
   resize: none;
+  border-color: var(--black);
+  background: var(--white);
 }
 
 /* Range slider - single thumb */
@@ -163,34 +186,46 @@ textarea {
   width: 0;
 }
 .single-thumb .range-slider__range {
-  border-radius: 6px;
+  border-radius: 0.4rem;
+}
+
+.pay .range-slider .range-slider__thumb,
+.pay .range-slider .range-slider__range {
+  background-color: var(--primary);
+}
+
+.pay .single-thumb {
+  border-color: var(--black);
+  background: var(--white);
+  border-radius: 0.3rem;
+  border: 0.06rem solid;
 }
 
 /* Media queries */
 
 /* large laptop */
-@media screen and (max-device-width: 1440px), screen and (max-width: 1440px) {
+@media screen and (max-device-width: 90rem), screen and (max-width: 90rem) {
   .container .form__container {
     width: 60rem;
   }
 }
 
 /* laptop */
-@media screen and (max-device-width: 1024px), screen and (max-width: 1024px) {
+@media screen and (max-device-width: 64rem), screen and (max-width: 64rem) {
   .container .form__container {
     width: 40rem;
   }
 }
 
 /* large mobile */
-@media screen and (max-device-width: 768px), screen and (max-width: 768px) {
+@media screen and (max-device-width: 48rem), screen and (max-width: 48rem) {
   .container .form__container {
     width: 23rem;
   }
 }
 
 /* large mobile */
-@media screen and (max-device-width: 425px), screen and (max-width: 425px) {
+@media screen and (max-device-width: 26.563rem), screen and (max-width: 26.563rem) {
   .container .form__container {
     width: 19rem;
   }
