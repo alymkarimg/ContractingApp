@@ -14,10 +14,6 @@
   flex-direction: column;
 }
 
-.error {
-  color: var(--red-500);
-}
-
 main {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -203,7 +199,6 @@ textarea {
   background: var(--white);
   border-radius: 0.3rem;
   border: 0.06rem solid;
-
 }
 
 /* Media queries */

@@ -8,7 +8,7 @@ export const DateRange = (props: any) => {
   const [startDate, endDate] = dateRange;
   return (
     <DatePicker
-      autoComplete='off'
+      autoComplete="off"
       dateFormat={'dd-MM-yyyy'}
       name={name}
       className="no-margin-front"

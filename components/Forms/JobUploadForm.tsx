@@ -1,8 +1,9 @@
-import React, { useState, FormEvent, useEffect, useRef } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
 import Select from '../Select';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Page(props: any) {
   const { apiKey } = props;
@@ -42,9 +43,12 @@ export default function Page(props: any) {
     }
   }
 
+  useEffect(() => {
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error! }} />);
+  }, [error]);
+
   return (
     <>
-      {error && <div dangerouslySetInnerHTML={{ __html: error }} className="error"></div>}
       <form onSubmit={onSubmit} className="form__container">
         <div className="title block">
           <label htmlFor="frm-title">Title:</label>

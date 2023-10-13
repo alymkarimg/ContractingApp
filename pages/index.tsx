@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
+import { ToastContainer } from 'react-toastify';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { req } = context;
@@ -19,6 +20,18 @@ export default function Home({ data, apiKey }: { data: IResponse; apiKey: string
   return (
     <main>
       <div className="container">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='dark'
+        />
         <h1 className="page__title">Contracting App</h1>
         <h2>Job Upload</h2>
         <JobUploadForm apiKey={apiKey} />
