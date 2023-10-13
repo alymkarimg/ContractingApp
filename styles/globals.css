@@ -13,6 +13,7 @@
   --grey-900: #212121;
   --shadow-25: rgb(0 0 0 / 25%);
   --shadow-45: rgb(0 0 0 / 45%);
+  --transparent: rgba(255, 255, 255, 0.7);
 }
 
 :root {
@@ -22,7 +23,7 @@
   --toastify-color-success: var(--green-500);
   --toastify-color-warning: var(--orange-500);
   --toastify-color-error: var(--primary);
-  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  --toastify-color-transparent: var(--transparent)
 
   --toastify-icon-color-info: var(--toastify-color-info);
   --toastify-icon-color-success: var(--toastify-color-success);
@@ -46,15 +47,7 @@
   --toastify-spinner-color: var(--grey-500);
   --toastify-spinner-color-empty-area: var(--grey-500);;
 
-  --toastify-color-progress-light: linear-gradient(
-    to right,
-    #4cd964,
-    #5ac8fa,
-    #007aff,
-    #34aadc,
-    #5856d6,
-    #ff2d55
-  );
+  --toastify-color-progress-light: var(--gradient);
 
   --toastify-color-progress-dark: var(--black);
   --toastify-color-progress-info: var(--toastify-color-info);
