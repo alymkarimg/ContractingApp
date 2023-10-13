@@ -4,7 +4,6 @@
     top: 0;
     z-index: 100;
     border-bottom: 0.06rem solid var(--black);
-    display: flex;
     padding-bottom: 0.5rem;
 }
 
