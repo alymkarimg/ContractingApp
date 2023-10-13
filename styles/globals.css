@@ -81,6 +81,8 @@ body {
 
   /* SCSS Gradient */
   background: var(--gradient);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 a {
