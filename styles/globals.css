@@ -45,7 +45,7 @@
   --toastify-text-color-error: var(--white);
 
   --toastify-spinner-color: var(--grey-500);
-  --toastify-spinner-color-empty-area: var(--grey-500);;
+  --toastify-spinner-color-empty-area: var(--grey-500);
 
   --toastify-color-progress-light: var(--gradient);
 

@@ -3,20 +3,20 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const DateRange = (props: any) => {
-  const { name } = props;
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  const { name, defaultDate, filterTime } = props;
+  const [date, setDate] = useState(defaultDate);
+
   return (
     <DatePicker
+      filterTime={filterTime}
+      showTimeSelect
       autoComplete="off"
-      dateFormat={'dd-MM-yyyy'}
+      dateFormat="dd-MM-yyyy hh:mm"
       name={name}
       className="no-margin-front"
-      selectsRange={true}
-      startDate={startDate}
-      endDate={endDate}
+      selected={date}
       onChange={(update: any) => {
-        setDateRange(update);
+        setDate(update);
       }}
       withPortal
     />
