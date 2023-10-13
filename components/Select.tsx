@@ -39,7 +39,7 @@ export default function EditableSelect(props: any) {
   return (
     <Select
       name={name}
-      className="no-margin-front"
+      className="no-margin-front occupation__select"
       options={options}
       value={value}
       inputValue={inputValue}
