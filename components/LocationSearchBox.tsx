@@ -103,7 +103,7 @@ export const LocationSearchBox = (props: any) => {
             value: ` ${getValue(result)} | ${(result.dist / 1000).toFixed(2)} km `,
           }))
           .sort((a: { dist: number }, b: { dist: number }) => a.dist - b.dist)}
-        autoFocus={true}
+        autoFocus={false}
         onChange={(query: any) => onSearchChange(query)}
         fuseConfigs={{
           minMatchCharLength: 0,
