@@ -32,7 +32,6 @@ export default function Home({ data, apiKey }: { data: IResponse; apiKey: string
           pauseOnHover
           theme="dark"
         />
-        <h1 className="page__title">Contracting App</h1>
         <h2>Job Upload</h2>
         <JobUploadForm apiKey={apiKey} />
       </div>
