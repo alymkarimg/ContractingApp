@@ -15,6 +15,54 @@
   --shadow-45: rgb(0 0 0 / 45%);
 }
 
+:root {
+  --toastify-color-light: var(--white);
+  --toastify-color-dark: var(--black);
+  --toastify-color-info: var(--primary);
+  --toastify-color-success: var(--green-500);
+  --toastify-color-warning: var(--orange-500);
+  --toastify-color-error: var(--primary);
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  --toastify-toast-width: 20rem;
+  --toastify-toast-background: (var(--white));
+  --toastify-toast-min-height: 4rem;
+  --toastify-toast-max-height: 50rem;
+  --toastify-z-index: 9999;
+
+  --toastify-text-color-light: var(--grey-500);
+  --toastify-text-color-dark: var(--white);
+
+  --toastify-text-color-info: var(--white);
+  --toastify-text-color-success: var(--white);
+  --toastify-text-color-warning: var(--white);
+  --toastify-text-color-error: var(--white);
+
+  --toastify-spinner-color: var(--grey-500);
+  --toastify-spinner-color-empty-area: var(--grey-500);;
+
+  --toastify-color-progress-light: linear-gradient(
+    to right,
+    #4cd964,
+    #5ac8fa,
+    #007aff,
+    #34aadc,
+    #5856d6,
+    #ff2d55
+  );
+
+  --toastify-color-progress-dark: var(--black);
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+}
+
 ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;
