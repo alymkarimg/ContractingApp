@@ -19,6 +19,6 @@ export const jobSchema = () => {
       return startIsDate
     }, {message: 'Expected a date or range to be selected'}),
     occupation: z.string().min(1, { message: 'Expected a value to be selected for occupation'}),
-    description: z.string().min(10, { message: 'Expected a description with more than ten Characters'}),
+    description: z.string().min(10, { message: 'Expected a description with more than ten characters'}),
   });
 } 
