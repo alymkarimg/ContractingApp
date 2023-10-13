@@ -47,6 +47,13 @@ export default function Page(props: any) {
     if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error! }} />);
   }, [error]);
 
+  const filterTime = (time: any) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
   return (
     <>
       <form onSubmit={onSubmit} className="form__container">
@@ -59,8 +66,20 @@ export default function Page(props: any) {
           <LocationSearchBox name={'location'} apiKey={apiKey} />
         </div>
         <div className="datetime block">
-          <label>Date and Time of job:</label>
-          <DateRange name={'datetime'} />
+          <label>Start date of job:</label>
+          <DateRange
+            filterTime={filterTime}
+            defaultDate={new Date(new Date().setMinutes(Math.ceil(new Date().getMinutes() / 30) * 30))}
+            name={'datetime__start'}
+          />
+        </div>
+        <div className="datetime block">
+          <label>End date of job:</label>
+          <DateRange
+            filterTime={filterTime}
+            defaultDate={new Date(new Date().setMinutes(Math.ceil(new Date().getMinutes() / 30) * 30 + 30))}
+            name={'datetime__end'}
+          />
         </div>
         <div className="pay block">
           <label>Pay (Per Hour):</label>
