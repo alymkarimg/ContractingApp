@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         var object = fields.reduce((obj: any, item: any) => Object.assign(obj, { [item.key]: item.value }), {});
 
-        const response = jobSchema().parse(object);
+        jobSchema().parse(object);
 
         const recipes = await Recipe.find({});
         res.status(200).json({ status: 'success', data: recipes });
