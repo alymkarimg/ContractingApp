@@ -134,6 +134,7 @@ a {
 }
 
 .container input {
+  font-size: inherit;
   margin: 0.625rem 0 0.625rem 0;
   border: 0.06rem solid;
   border-color: var(--black);
