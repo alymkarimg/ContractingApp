@@ -36,13 +36,6 @@ const Logo = () => {
   return (
     <>
       <Link href="/" style={{ display: showButton ? "none" : "block" }}>
-        {/* <Image
-          src="/images/logo.png"
-          alt="Logo"
-          width={width < 1024 ? "150" : "250"}
-          height={width < 1024 ? "45" : "74"}
-          className="relative"
-        /> */}
          <h1 className="page__title">Contracting App</h1>
       </Link>
       <div
