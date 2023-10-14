@@ -1,8 +1,8 @@
-"use client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Button from "./Button";
+'use client';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Button from './Button';
 
 const Logo = () => {
   //update the size of the logo when the size of the screen changes
@@ -14,7 +14,7 @@ const Logo = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", updateWidth);
+    window.addEventListener('resize', updateWidth);
     updateWidth();
   }, []);
 
@@ -30,17 +30,17 @@ const Logo = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", changeNavButton);
+    window.addEventListener('scroll', changeNavButton);
   }, []);
 
   return (
     <>
-      <Link href="/" style={{ display: showButton ? "none" : "block" }}>
-         <h1 className="page__title">Contracting App</h1>
+      <Link href="/" style={{ display: showButton ? 'none' : 'block' }}>
+        <h1 className="page__title">Contracting App</h1>
       </Link>
       <div
         style={{
-          display: showButton ? "block" : "none",
+          display: showButton ? 'block' : 'none',
         }}
       >
         <Button />

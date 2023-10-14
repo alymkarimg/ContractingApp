@@ -13,36 +13,29 @@ const formattedOptions = options.map((q) => {
 }) as any;
 
 export default function EditableSelect(props: any) {
-  const { name } = props;
-
-  // This needs to become a controlled component so track state
-  const [value, setValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const { state, setState, stateValue, setStateValue } = props;
 
   const options = useRef(formattedOptions).current;
 
   const onInputChange = (inputValue: React.SetStateAction<string>, { action }: any) => {
     // onInputChange => update inputValue
     if (action === 'input-change') {
-      setInputValue(inputValue);
-    }
-    if (inputValue === '') {
-      setValue('');
+      setStateValue(inputValue);
+      setState({ label: inputValue.toString(), value: inputValue.toString().toLowerCase() });
     }
   };
 
   const onChange = (option: any) => {
-    setValue(option);
-    setInputValue(option ? option.label : '');
+    setState(option);
+    setStateValue(option ? option.label : '');
   };
 
   return (
     <Select
-      name={name}
       className="no-margin-front occupation__select"
       options={options}
-      value={value}
-      inputValue={inputValue}
+      value={state}
+      inputValue={stateValue}
       onInputChange={onInputChange}
       onChange={onChange}
       components={{
