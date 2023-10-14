@@ -1,7 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import Logo from "./Logo";
-import Button from "./Button";
+import React from 'react';
+import Link from 'next/link';
+import Logo from './Logo';
+import Button from './Button';
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
   return (
@@ -35,4 +35,4 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
   );
 };
 
-export default Navbar
+export default Navbar;

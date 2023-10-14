@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactSearchBox from 'alymkarimg-react-search-box';
 
 type GeoLocation = { latitude: number; longitude: number };
 
 const GeoBanner = (props: any) => {
-  const { geoLocation, geoError, searchResults } = props;
+  const { geoLocation, geoError } = props;
   if (geoError) {
     return <p className="banner warn">{geoError.message} </p>;
   } else if (geoLocation.latitude) {
@@ -20,32 +20,27 @@ const GeoBanner = (props: any) => {
   }
 };
 
-class Placefinder {
-  apiKey: string;
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
-  async getNearbyPlaces(query: any, lat: any, long: any, limit = 10, radius = 10000) {
-    let baseUrl = 'https://api.tomtom.com/search/2/search';
-
-    let queryString = `key=${this.apiKey}&typeahead=true&extendedPostalCodesFor=PAD,Addr,POI&language=en-US&limit=${limit}&lat=${lat}&lon=${long}&radius=${radius}&countrySet=GB/GBR&resultSet=category,brand`;
-
-    let response = await fetch(`${baseUrl}/${query}.json?${queryString}`);
-    return response.json();
-  }
-}
-
 export const LocationSearchBox = (props: any) => {
-  const { apiKey, name } = props;
+  const { apiKey, setTargetGeoLocation, locationQuery, setLocationQuery } = props;
 
   const [state, setState] = useState({
     geoLocation: {} as any,
     geoError: null,
     searchResults: [] as any,
-    query: '',
   });
+
+  const getNearbyPlaces = async (apiKey: string, query: any, lat: any, long: any, limit = 10, radius = 1000000) => {
+    let baseUrl = 'https://api.tomtom.com/search/2/search';
+
+    let queryString = `key=${apiKey}&typeahead=true&extendedPostalCodesFor=PAD,Addr,POI&language=en-US&limit=${limit}&lat=${lat}&lon=${long}&radius=${radius}&countrySet=GB/GBR&resultSet=category,brand`;
+
+    try {
+      let response = await fetch(`${baseUrl}/${query}.json?${queryString}`);
+      return response.json();
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -66,15 +61,24 @@ export const LocationSearchBox = (props: any) => {
     );
   }, []);
 
-  const onSearchChange = async (query: any) => {
-    if (query.length > 0 && apiKey) {
-      let placeFinder = new Placefinder(apiKey);
+  useEffect(() => {
+    const updateSearch = async () => {
+      if (locationQuery.length > 0 && apiKey) {
+  
+        let results = await getNearbyPlaces(apiKey, locationQuery, state.geoLocation.latitude, state.geoLocation.longitude);
 
-      let results = await placeFinder.getNearbyPlaces(query, state.geoLocation.latitude, state.geoLocation.longitude);
-
-      setState({ ...state, searchResults: results as any, query });
+        if(results) {
+          if(results.summary) {
+            setTargetGeoLocation({ latitude: results.summary.geoBias.lat, longitude: results.summary.geoBias.lon });
+          }
+  
+          setState({ ...state, searchResults: results as any });
+        }
+      }
     }
-  };
+    updateSearch()
+    
+  }, [locationQuery])
 
   const results = state.searchResults.results ?? [];
 
@@ -86,7 +90,6 @@ export const LocationSearchBox = (props: any) => {
   return (
     <div id="frm-location" className="no-margin-front">
       <ReactSearchBox
-        name={name}
         data={results
           ?.map((result: { address: { freeformAddress: string }; id: any; poi: { name: any }; dist: any }) => ({
             key: result.id,
@@ -104,7 +107,6 @@ export const LocationSearchBox = (props: any) => {
           }))
           .sort((a: { dist: number }, b: { dist: number }) => a.dist - b.dist)}
         autoFocus={true}
-        onChange={(query: any) => onSearchChange(query)}
         fuseConfigs={{
           minMatchCharLength: 0,
 
@@ -116,6 +118,8 @@ export const LocationSearchBox = (props: any) => {
         }}
         keys={['name']}
         clearInput={false}
+        value={locationQuery}
+        setValue={setLocationQuery}
       />
     </div>
   );

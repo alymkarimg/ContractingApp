@@ -1,9 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
-import Recipe from '../../models/Recipe';
+import Recipe from '../../models/Job';
 import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
-import { z } from 'zod';
+import Job from '../../models/Job';
+
+const formatJob = (object: any) => {
+  return {
+    title: object.title,
+    latitude: Number.parseInt(object.latitude),
+    longitude: Number.parseInt(object.longitude),
+    datetime__start: new Date(object.datetime__start),
+    datetime__end: new Date(object.datetime__end),
+    pay: object.pay * 100,
+    occupation: object.occupation,
+    description: object.description,
+  }
+}
 
 export const config = {
   api: {
@@ -30,12 +43,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         var object = fields.reduce((obj: any, item: any) => Object.assign(obj, { [item.key]: item.value }), {});
 
-        jobSchema().parse(object);
+        jobSchema().parse(formatJob(object));
 
-        const recipes = await Recipe.find({});
-        res.status(200).json({ status: 'success', data: recipes });
+        await Job.create(formatJob(object));
+        res.status(200).json({ status: 'success', message: 'Job successfully uploaded' });
       } catch (e: any) {
-        console.error(e);
+        console.error(e)
         let str = '';
         e.errors.forEach(function (error: any) {
           str += '<li>' + error.message + '</li>'; // build the list
