@@ -1,1 +1,1 @@
-declare module "alymkarimg-react-search-box";
+declare module 'alymkarimg-react-search-box';

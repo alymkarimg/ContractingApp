@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'POST':
       try {
         const form = formidable();
-        let fields = [] as any;
+        const fields: { key: string; value: string }[] = [];
 
         form.on('field', (fieldName, fieldValue) => {
           fields.push({ key: fieldName, value: fieldValue });
@@ -29,15 +29,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         await form.parse(req);
 
-        var object = fields.reduce((obj: any, item: any) => Object.assign(obj, { [item.key]: item.value }), {});
+        const object = fields.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
 
         jobSchema().parse(formatJob(object));
 
         await Job.create(formatJob(object));
         res.status(200).json({ status: 'success', message: 'Job successfully uploaded' });
-      } catch (e: any) {
-        console.error(e)
-        res.status(404).json({message: e.message});
+      } catch (e: unknown) {
+        console.error(e);
+        res.status(404).json({ message: (e as { message: string }).message });
       }
       break;
     case 'GET':

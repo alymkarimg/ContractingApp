@@ -1,14 +1,18 @@
-import { useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 
-export const SingleThumbRangeSlider = (props: any) => {
+export const SingleThumbRangeSlider = (props: {
+  min: number;
+  max: number;
+  state: number[];
+  setState: React.Dispatch<React.SetStateAction<number[]>>;
+}) => {
   const { min, max, state, setState } = props;
 
   return (
     <div className="pay__container">
       <RangeSlider
-        onInput={(value: any) => {
+        onInput={(value: number[]) => {
           setState(value);
         }}
         value={state}

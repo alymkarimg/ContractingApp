@@ -1,8 +1,13 @@
-import React, { useState, useRef } from 'react';
-import Select, { components } from 'react-select';
+import React, { useRef } from 'react';
+import Select, { ActionMeta, components } from 'react-select';
 import options from '../data/occupation.json';
+import { InputProps, GroupBase } from 'react-select';
 
-const Input = (props: any) => <components.Input {...props} isHidden={false} />;
+type OnChangeSelect = (newValue: unknown, actionMeta: ActionMeta<unknown>) => void;
+
+const Input = (props: React.JSX.IntrinsicAttributes & InputProps<unknown, boolean, GroupBase<unknown>>) => (
+  <components.Input {...props} isHidden={false} />
+);
 
 function titleCase(string: string) {
   return string[0].toUpperCase() + string.slice(1).toLowerCase();
@@ -10,14 +15,19 @@ function titleCase(string: string) {
 
 const formattedOptions = options.map((q) => {
   return { label: titleCase(q), value: q };
-}) as any;
+});
 
-export default function EditableSelect(props: any) {
+export default function EditableSelect(props: {
+  state: unknown;
+  setState: React.Dispatch<React.SetStateAction<unknown>>;
+  stateValue: string;
+  setStateValue: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const { state, setState, stateValue, setStateValue } = props;
 
   const options = useRef(formattedOptions).current;
 
-  const onInputChange = (inputValue: React.SetStateAction<string>, { action }: any) => {
+  const onInputChange = (inputValue: React.SetStateAction<string>, { action }: { action: string }) => {
     // onInputChange => update inputValue
     if (action === 'input-change') {
       setStateValue(inputValue);
@@ -25,9 +35,9 @@ export default function EditableSelect(props: any) {
     }
   };
 
-  const onChange = (option: any) => {
+  const onChange: OnChangeSelect = (option: unknown) => {
     setState(option);
-    setStateValue(option ? option.label : '');
+    setStateValue(option ? (option as { label: string }).label : '');
   };
 
   return (
