@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Logo from './Logo';
 import Button from './Button';
 
-const Navbar = ({ toggle }: { toggle: () => void }) => {
+const Navbar = () => {
   return (
     <>
       <div className="navbar">
@@ -28,7 +28,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
               </li>
               <li>
                 <p>
-                <Button />
+                  <Button />
                 </p>
               </li>
             </ul>

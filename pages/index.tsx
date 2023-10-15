@@ -1,10 +1,9 @@
-import { GetServerSidePropsContext } from 'next';
 import { IResponse } from '../interfaces/response.interface';
 import JobUploadForm from '@/components/Forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
+import Image from 'next/image';
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const { req } = context;
+export const getServerSideProps = async () => {
   let url;
   if (process.env.NODE_ENV !== 'production') {
     url = 'http://localhost:3000';
@@ -16,7 +15,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   return { props: { data, apiKey: process.env.TOMTOM_API_KEY } };
 };
 
-export default function Home({ data, apiKey }: { data: IResponse; apiKey: string }) {
+export default function Home({ apiKey }: { data: IResponse; apiKey: string }) {
   return (
     <main>
       <div className="container">
@@ -37,7 +36,7 @@ export default function Home({ data, apiKey }: { data: IResponse; apiKey: string
       </div>
       <footer>
         <p>
-          Powered by <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
+          Powered by <Image width={90} height={90} src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </p>
       </footer>
     </main>

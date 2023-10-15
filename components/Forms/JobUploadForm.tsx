@@ -1,13 +1,13 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent, useEffect, Dispatch } from 'react';
 import { DateRange } from '../DateRange';
 import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
 import Select from '../Select';
 import { toast } from 'react-toastify';
 import { jobSchema } from '@/validations/jobSchema';
-import { formatJob, formatZodErrors } from '@/validations/helper'
+import { formatJob, formatZodErrors } from '@/validations/helper';
 
-export default function Page(props: any) {
+export default function Page(props: { apiKey: string }) {
   const { apiKey } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,10 +16,10 @@ export default function Page(props: any) {
 
   // form state
   const [title, setTitle] = useState('');
-  const [targetGeoLocation, setTargetGeoLocation] = useState({} as any);
-  const [locationQuery, setLocationQuery] = useState('')
-  const [dateStart, setDateStart] = useState('');
-  const [dateEnd, setDateEnd] = useState('');
+  const [targetGeoLocation, setTargetGeoLocation] = useState({} as { latitude: Blob; longitude: Blob });
+  const [locationQuery, setLocationQuery] = useState('');
+  const [dateStart, setDateStart] = useState(null as Date | null);
+  const [dateEnd, setDateEnd] = useState(null as Date | null);
   const [pay, setPay] = useState([0, 0]);
   const [occupation, setOccupation] = useState({ value: '', label: '' });
   const [occupationValue, setOccupationValue] = useState('');
@@ -31,23 +31,24 @@ export default function Page(props: any) {
     setError(null); // Clear previous errors when a new request starts
 
     try {
-
-      jobSchema().parse(formatJob({
-        title,
-        latitude: targetGeoLocation.latitude,
-        longitude: targetGeoLocation.longitude,
-        datetime__start: dateStart,
-        datetime__end: dateEnd,
-        pay: pay[1],
-        occupation: occupationValue,
-      })) as any;
+      jobSchema().parse(
+        formatJob({
+          title,
+          latitude: targetGeoLocation.latitude,
+          longitude: targetGeoLocation.longitude,
+          datetime__start: dateStart,
+          datetime__end: dateEnd,
+          pay: pay[1],
+          occupation: occupationValue,
+        })
+      );
 
       const formData = new FormData();
       formData.append('title', title);
       formData.append('latitude', targetGeoLocation.latitude);
       formData.append('longitude', targetGeoLocation.longitude);
-      formData.append('datetime__start', dateStart);
-      formData.append('datetime__end', dateEnd);
+      formData.append('datetime__start', dateStart?.toString() ?? '');
+      formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());
       formData.append('occupation', occupationValue);
       formData.append('description', description);
@@ -67,39 +68,39 @@ export default function Page(props: any) {
 
       if (data) {
         setSuccess(data.message);
-        
+
         // clear all state
         setTitle('');
-        setLocationQuery('')
-        setDateStart('');
-        setDateEnd('');
+        setLocationQuery('');
+        setDateStart(null);
+        setDateEnd(null);
         setPay([0, 0]);
         setOccupation({ value: '', label: '' });
         setOccupationValue('');
         setDescription('');
       }
       // ...
-    } catch (e: any) {
+    } catch (e: unknown) {
       // Capture the error message to display to the user
-      setError(formatZodErrors(JSON.parse(e.message)));
+      setError(formatZodErrors(JSON.parse((e as { message: string }).message)));
     } finally {
       setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error! }} />);
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error }} />);
     // reset toast
-    setError(null)
+    setError(null);
   }, [error]);
 
   useEffect(() => {
-    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: success! }} />);
+    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: success }} />);
     // reset toast
-    setSuccess(null)
+    setSuccess(null);
   }, [success]);
 
-  const filterTime = (time: any) => {
+  const filterTime = (time: string | number | Date) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);
 
@@ -115,31 +116,28 @@ export default function Page(props: any) {
         </div>
         <div className="location block">
           <label htmlFor="frm-location">Location:</label>
-          <LocationSearchBox setTargetGeoLocation={setTargetGeoLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} apiKey={apiKey} />
+          <LocationSearchBox
+            setTargetGeoLocation={setTargetGeoLocation}
+            locationQuery={locationQuery}
+            setLocationQuery={setLocationQuery}
+            apiKey={apiKey}
+          />
         </div>
         <div className="datetime block">
           <label>Start date of job:</label>
-          <DateRange
-            state={dateStart}
-            setState={setDateStart}
-            filterTime={filterTime}
-          />
+          <DateRange state={dateStart} setState={setDateStart} filterTime={filterTime} />
         </div>
         <div className="datetime block">
           <label>End date of job:</label>
-          <DateRange
-            state={dateEnd}
-            setState={setDateEnd}
-            filterTime={filterTime}
-          />
+          <DateRange state={dateEnd} setState={setDateEnd} filterTime={filterTime} />
         </div>
         <div className="pay block">
           <label>Pay (Per Hour):</label>
-          <SingleThumbRangeSlider state={pay} setState={setPay} form={'job__form'} min={0} max={100} />
+          <SingleThumbRangeSlider state={pay} setState={setPay} min={0} max={100} />
         </div>
         <div className="occupation block">
           <label htmlFor="frm-occupation">Occupation Required:</label>
-          <Select state={occupation} setState={setOccupation} stateValue={occupationValue} setStateValue={setOccupationValue} />
+          <Select state={occupation} setState={setOccupation as Dispatch<unknown>} stateValue={occupationValue} setStateValue={setOccupationValue} />
         </div>
         <div className="description block">
           <label htmlFor="frm-description">Job Description:</label>

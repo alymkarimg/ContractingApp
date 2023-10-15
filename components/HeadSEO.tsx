@@ -11,7 +11,9 @@ export default function HeadSEO({
   siteType = process.env.SITE_TYPE,
   siteTitle = process.env.SITE_TITLE,
   children,
-}: any) {
+}: {
+  [x: string]: string | undefined;
+}) {
   const structuredData = JSON.stringify({
     '@context': `${siteCanonicalUrl}/`,
     description: siteDescription,
