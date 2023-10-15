@@ -230,7 +230,7 @@ textarea {
   }
 }
 
-/* large mobile */
+/* mobile */
 @media screen and (max-device-width: 26.563rem), screen and (max-width: 26.563rem) {
   .container .form__container {
     width: 19rem;

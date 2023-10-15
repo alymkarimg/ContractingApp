@@ -4,19 +4,7 @@ import Recipe from '../../models/Job';
 import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
 import Job from '../../models/Job';
-
-const formatJob = (object: any) => {
-  return {
-    title: object.title,
-    latitude: Number.parseInt(object.latitude),
-    longitude: Number.parseInt(object.longitude),
-    datetime__start: new Date(object.datetime__start),
-    datetime__end: new Date(object.datetime__end),
-    pay: object.pay * 100,
-    occupation: object.occupation,
-    description: object.description,
-  }
-}
+import { formatJob } from '@/validations/helper';
 
 export const config = {
   api: {
@@ -49,14 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json({ status: 'success', message: 'Job successfully uploaded' });
       } catch (e: any) {
         console.error(e)
-        let str = '';
-        e.errors.forEach(function (error: any) {
-          str += '<li>' + error.message + '</li>'; // build the list
-        });
-        res.status(404).json({
-          status: 'error',
-          message: str,
-        });
+        res.status(404).json({message: e.message});
       }
       break;
     case 'GET':
