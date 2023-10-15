@@ -4,6 +4,8 @@ import { SingleThumbRangeSlider } from '../RangeSlider';
 import { LocationSearchBox } from '../LocationSearchBox';
 import Select from '../Select';
 import { toast } from 'react-toastify';
+import { jobSchema } from '@/validations/jobSchema';
+import { formatJob, formatZodErrors } from '@/validations/helper'
 
 export default function Page(props: any) {
   const { apiKey } = props;
@@ -29,6 +31,17 @@ export default function Page(props: any) {
     setError(null); // Clear previous errors when a new request starts
 
     try {
+
+      jobSchema().parse(formatJob({
+        title,
+        latitude: targetGeoLocation.latitude,
+        longitude: targetGeoLocation.longitude,
+        datetime__start: dateStart,
+        datetime__end: dateEnd,
+        pay: pay[1],
+        occupation: occupationValue,
+      })) as any;
+
       const formData = new FormData();
       formData.append('title', title);
       formData.append('latitude', targetGeoLocation.latitude);
@@ -66,9 +79,9 @@ export default function Page(props: any) {
         setDescription('');
       }
       // ...
-    } catch (error: any) {
+    } catch (e: any) {
       // Capture the error message to display to the user
-      setError(error.message);
+      setError(formatZodErrors(JSON.parse(e.message)));
     } finally {
       setIsLoading(false);
     }

@@ -1,10 +1,4 @@
-import moment from 'moment';
 import { z } from 'zod'
-
-function isDate(dateStr: string) {
-  const t = moment(dateStr, 'dd-MM-yyyy hh:mm').isValid();
-  return t
-}
 
 export const jobSchema = () => {
   return z.object({

@@ -8,7 +8,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
     <>
       <div className="navbar">
         <div className="navbar__container">
-          <div className="navbar__container-inner">
+          <div className="navbar__container--inner">
             <Logo />
             <ul className="navbar__list">
               <li>
@@ -26,8 +26,12 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                   <p>Admin Area</p>
                 </Link>
               </li>
+              <li>
+                <p>
+                <Button />
+                </p>
+              </li>
             </ul>
-            <Button />
           </div>
         </div>
       </div>
