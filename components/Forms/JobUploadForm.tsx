@@ -35,8 +35,8 @@ export default function Page(props: { apiKey: string }) {
         formatJob({
           title,
           location,
-          datetime__start: dateStart,
-          datetime__end: dateEnd,
+          datetime__start: dateStart?.toISOString(),
+          datetime__end: dateEnd?.toISOString(),
           pay: pay[1],
           occupation: occupationValue,
           description,

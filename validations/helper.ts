@@ -1,8 +1,8 @@
 export const formatJob = (object: {
   title: string;
   location: string;
-  datetime__start: string;
-  datetime__end: string;
+  datetime__start?: string;
+  datetime__end?: string;
   pay: number;
   occupation: string;
   description: string;
@@ -10,8 +10,8 @@ export const formatJob = (object: {
   return {
     title: object.title,
     location: object.location,
-    datetime__start: new Date(object.datetime__start),
-    datetime__end: new Date(object.datetime__end),
+    datetime__start: new Date(object.datetime__start as string),
+    datetime__end: new Date(object.datetime__end as string),
     pay: object.pay * 100,
     occupation: object.occupation,
     description: object.description,
