@@ -237,6 +237,6 @@ textarea {
   }
 }
 
-.react-search-box-dropdown-list-item {
+.location ul > li.react-search-box-dropdown-list-item {
   padding: 2rem;
 }
