@@ -6,12 +6,8 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  longitude: {
-    type: Number,
-    required: true,
-  },
-  latitude: {
-    type: Number,
+  location: {
+    type: String,
     required: true,
   },
   datetime__start: {
@@ -35,7 +31,7 @@ const jobSchema = new mongoose.Schema({
   },
 });
 
-jobSchema.path('pay').get(function (p: any) {
+jobSchema.path('pay').get(function (p: number) {
   return (p / 100).toFixed(2);
 });
 
