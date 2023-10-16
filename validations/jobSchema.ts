@@ -4,16 +4,7 @@ export const jobSchema = () => {
   return z
     .object({
       title: z.string().min(3, { message: 'Expected a title with more than three characters' }),
-      latitude: z.number({
-        errorMap: () => {
-          return { message: 'Expected a latitude to be sent, please select a location' };
-        },
-      }),
-      longitude: z.number({
-        errorMap: () => {
-          return { message: 'Expected a longitude to be sent, please select a location' };
-        },
-      }),
+      location: z.string().min(1, { message: 'Expected a location to be selected' }),
       datetime__start: z.date({
         errorMap: () => {
           return { message: 'Expected a valid start date to be selected' };
@@ -28,7 +19,7 @@ export const jobSchema = () => {
     })
     .refine(
       (schema) => {
-        const t = new Date(schema.datetime__end) >= new Date(schema.datetime__start);
+        const t = new Date(schema.datetime__end.setSeconds(0, 0)) >= new Date(schema.datetime__start.setSeconds(0, 0));
         return t;
       },
       {

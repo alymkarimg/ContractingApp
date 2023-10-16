@@ -12,7 +12,7 @@ export const getServerSideProps = async () => {
   }
   const res = await fetch(`${url}/api/`);
   const data: IResponse = await res.json();
-  return { props: { data, apiKey: process.env.TOMTOM_API_KEY } };
+  return { props: { data, apiKey: process.env.GOOGLE_API_KEY } };
 };
 
 export default function Home({ apiKey }: { data: IResponse; apiKey: string }) {

@@ -1,132 +1,68 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactSearchBox from 'alymkarimg-react-search-box';
 
-// type GeoLocation = { latitude: number; longitude: number };
-
-// const GeoBanner = (props: any) => {
-//   const { geoLocation, geoError } = props;
-//   if (geoError) {
-//     return <p className="banner warn">{geoError.message} </p>;
-//   } else if (geoLocation.latitude) {
-//     return (
-//       <p className="banner success">
-//         Lat:
-//         <strong>{geoLocation.latitude.toFixed(4)} </strong>, Long:
-//         <strong>{geoLocation.longitude.toFixed(4)} </strong>
-//       </p>
-//     );
-//   } else {
-//     return null;
-//   }
-// };
-
 interface Result {
-  id: string;
-  poi: { name: string };
-  address: { freeformAddress: string };
-  index: number;
-  dist: number;
+  place_id: string;
+  description: string;
 }
 
 interface SearchResults {
-  results: Result[];
+  predictions: Result[];
 }
 
 export const LocationSearchBox = (props: {
   apiKey: string;
-  setTargetGeoLocation: React.Dispatch<
-    React.SetStateAction<{
-      latitude: Blob;
-      longitude: Blob;
-    }>
-  >;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
   locationQuery: string;
   setLocationQuery: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const { apiKey, setTargetGeoLocation, locationQuery, setLocationQuery } = props;
+  const { locationQuery, setLocationQuery, setLocation } = props;
 
-  const [state, setState] = useState({
-    geoLocation: {} as { latitude: number; longitude: number },
-    geoError: null as GeolocationPositionError | null,
-    searchResults: {} as SearchResults,
-  });
-
-  const getNearbyPlaces = async (apiKey: string, query: string, lat: number, long: number, limit = 10, radius = 1000000) => {
-    const baseUrl = 'https://api.tomtom.com/search/2/search';
-
-    const queryString = `key=${apiKey}&typeahead=true&extendedPostalCodesFor=PAD,Addr,POI&language=en-US&limit=${limit}&lat=${lat}&lon=${long}&radius=${radius}&countrySet=GB/GBR&resultSet=category,brand`;
-
-    try {
-      const response = await fetch(`${baseUrl}/${query}.json?${queryString}`);
-      return response.json();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (e) => {
-        if (e.coords.latitude && e.coords.longitude) {
-          setState({
-            ...state,
-            geoLocation: {
-              latitude: e.coords.latitude,
-              longitude: e.coords.longitude,
-            },
-          });
-        }
-      },
-      async (err) => {
-        setState({ ...state, geoError: err as GeolocationPositionError });
-      }
-    );
-  }, [state]);
+  const [searchResults, setSearchResults] = useState<SearchResults>();
 
   useEffect(() => {
     const updateSearch = async () => {
-      if (locationQuery.length > 0 && apiKey) {
-        const results = await getNearbyPlaces(apiKey, locationQuery, state.geoLocation.latitude, state.geoLocation.longitude);
-
-        if (results) {
-          if (results.summary) {
-            setTargetGeoLocation({ latitude: results.summary.geoBias.lat, longitude: results.summary.geoBias.lon });
-          }
-
-          setState({ ...state, searchResults: results });
+      const getNearbyPlaces = async (query: string) => {
+        try {
+          const response = await fetch(`api/location-autocomplete?query=${query}`);
+          return await response.json();
+        } catch (e) {
+          console.log(e);
         }
+      };
+
+      const results = await getNearbyPlaces(locationQuery);
+
+      if (results) {
+        setSearchResults((prev) => {
+          previousResults.current = prev?.predictions ?? [];
+          return results;
+        });
       }
     };
     updateSearch();
-  }, [apiKey, setTargetGeoLocation, state, locationQuery]);
+  }, [locationQuery]);
 
-  const results = state.searchResults.results ?? [];
+  const previousResults = useRef<Result[]>([]);
 
-  const getValue = (result: Result) => {
-    if (result.poi?.name) return result.poi?.name + ' ' + result.address.freeformAddress;
-    else return result.address.freeformAddress;
-  };
+  const results = searchResults?.predictions ?? [];
 
   return (
     <div id="frm-location" className="no-margin-front">
       <ReactSearchBox
-        data={results
-          ?.map((result) => ({
-            key: result.id,
-            name: getValue(result),
-            dist: result.dist,
-            value: getValue(result),
-          }))
-          .sort((a: { dist: number }, b: { dist: number }) => a.dist - b.dist)}
-        matchedRecords={results
-          ?.map((result) => ({
-            key: result.id,
-            name: getValue(result),
-            dist: result.dist,
-            value: ` ${getValue(result)} | ${(result.dist / 1000).toFixed(2)} km `,
-          }))
-          .sort((a: { dist: number }, b: { dist: number }) => a.dist - b.dist)}
-        autoFocus={true}
+        data={results?.map((result) => ({
+          key: result.place_id,
+          name: result.description,
+          value: result.description,
+          place_id: result.place_id,
+        }))}
+        matchedRecords={results?.map((result) => ({
+          key: result.place_id,
+          name: result.description,
+          value: result.description,
+          place_id: result.place_id,
+        }))}
+        autoFocus={false}
         fuseConfigs={{
           minMatchCharLength: 0,
 
@@ -140,6 +76,16 @@ export const LocationSearchBox = (props: {
         clearInput={false}
         value={locationQuery}
         setValue={setLocationQuery}
+        onChange={(result: string) => {
+          const findPlaceId = (result: string) => {
+            const record = previousResults.current.find((q) => q.description === result);
+            return record?.place_id ?? '';
+          };
+
+          const placeId = findPlaceId(result);
+
+          setLocation(placeId);
+        }}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
 import Job from '../../models/Job';
 import { formatJob } from '@/validations/helper';
+import { IJobForm } from '@/interfaces/jobForm.interface';
 
 export const config = {
   api: {
@@ -31,9 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const object = fields.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
 
-        jobSchema().parse(formatJob(object));
+        jobSchema().parse(formatJob(object as IJobForm));
 
-        await Job.create(formatJob(object));
+        await Job.create(formatJob(object as IJobForm));
         res.status(200).json({ status: 'success', message: 'Job successfully uploaded' });
       } catch (e: unknown) {
         console.error(e);

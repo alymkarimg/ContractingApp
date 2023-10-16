@@ -16,7 +16,7 @@ export default function Page(props: { apiKey: string }) {
 
   // form state
   const [title, setTitle] = useState('');
-  const [targetGeoLocation, setTargetGeoLocation] = useState({} as { latitude: Blob; longitude: Blob });
+  const [location, setLocation] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
   const [dateStart, setDateStart] = useState(null as Date | null);
   const [dateEnd, setDateEnd] = useState(null as Date | null);
@@ -34,19 +34,18 @@ export default function Page(props: { apiKey: string }) {
       jobSchema().parse(
         formatJob({
           title,
-          latitude: targetGeoLocation.latitude,
-          longitude: targetGeoLocation.longitude,
-          datetime__start: dateStart,
-          datetime__end: dateEnd,
+          location,
+          datetime__start: dateStart?.toISOString(),
+          datetime__end: dateEnd?.toISOString(),
           pay: pay[1],
           occupation: occupationValue,
+          description,
         })
       );
 
       const formData = new FormData();
       formData.append('title', title);
-      formData.append('latitude', targetGeoLocation.latitude);
-      formData.append('longitude', targetGeoLocation.longitude);
+      formData.append('location', location);
       formData.append('datetime__start', dateStart?.toString() ?? '');
       formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());
@@ -63,14 +62,15 @@ export default function Page(props: { apiKey: string }) {
         throw new Error(errorText.message);
       }
 
-      // Handle response if necessary
-      const data = await response.json();
+      if (response.ok) {
+        // Handle response if necessary
+        const data = await response.json();
 
-      if (data) {
         setSuccess(data.message);
 
         // clear all state
         setTitle('');
+        setLocation('');
         setLocationQuery('');
         setDateStart(null);
         setDateEnd(null);
@@ -79,7 +79,6 @@ export default function Page(props: { apiKey: string }) {
         setOccupationValue('');
         setDescription('');
       }
-      // ...
     } catch (e: unknown) {
       // Capture the error message to display to the user
       setError(formatZodErrors(JSON.parse((e as { message: string }).message)));
@@ -116,12 +115,7 @@ export default function Page(props: { apiKey: string }) {
         </div>
         <div className="location block">
           <label htmlFor="frm-location">Location:</label>
-          <LocationSearchBox
-            setTargetGeoLocation={setTargetGeoLocation}
-            locationQuery={locationQuery}
-            setLocationQuery={setLocationQuery}
-            apiKey={apiKey}
-          />
+          <LocationSearchBox setLocation={setLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} apiKey={apiKey} />
         </div>
         <div className="datetime block">
           <label>Start date of job:</label>
