@@ -1,12 +1,6 @@
-export const formatJob = (object: {
-  title: string;
-  location: string;
-  datetime__start?: string;
-  datetime__end?: string;
-  pay: number;
-  occupation: string;
-  description: string;
-}) => {
+import { IJobForm } from '@/interfaces/jobForm.interface';
+
+export const formatJob = (object: IJobForm) => {
   return {
     title: object.title,
     location: object.location,
