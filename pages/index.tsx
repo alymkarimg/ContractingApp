@@ -4,15 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
 export const getServerSideProps = async () => {
-  let url;
-  if (process.env.NODE_ENV !== 'production') {
-    url = 'http://localhost:3000';
-  } else {
-    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
-  }
-  const res = await fetch(`${url}/api/`);
-  const data: IResponse = await res.json();
-  return { props: { data, apiKey: process.env.GOOGLE_API_KEY } };
+  return { props: { apiKey: process.env.GOOGLE_API_KEY } };
 };
 
 export default function Home({ apiKey }: { data: IResponse; apiKey: string }) {
