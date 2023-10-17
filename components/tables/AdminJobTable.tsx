@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
 import { FaTrash, FaPenSquare } from 'react-icons/fa';
+import DOMPurify from 'dompurify';
+
+interface Row {
+  [x: string]: string;
+}
 
 const AdminJobTable = () => {
   const [error, setError] = useState<string | null>(null);
@@ -17,24 +22,63 @@ const AdminJobTable = () => {
       try {
         const response = await fetch(`api/admin-area`);
         const jobs = await response.json();
+
         if (response.ok) {
           setData(jobs.data);
-          setColumns([
-            ...Object.keys(jobs.data[0]).map((q: string) => {
-              return {
-                name: q,
-                selector: (row: { [x: string]: string }) => row[q],
-                sortable: true,
-              };
-            }),
+          const columns = [
             {
-              cell: (row) => (
+              name: 'Title',
+              selector: (row: Row) => row.title,
+              sortable: true,
+            },
+            {
+              name: 'Location',
+              selector: (row: Row) => row.location,
+              sortable: true,
+            },
+            {
+              name: 'Start',
+              selector: (row: Row) => new Date(row.datetime__start!).toLocaleString(),
+              sortable: true,
+            },
+            {
+              name: 'End',
+              selector: (row: Row) => new Date(row.datetime__end!).toLocaleString(),
+              sortable: true,
+            },
+            {
+              name: 'Pay',
+              selector: (row: Row) => `£${parseInt(row.pay) / 100}`,
+              sortable: true,
+            },
+            {
+              name: 'Occupation',
+              selector: (row: Row) => row.occupation,
+              sortable: true,
+            },
+            {
+              width: '30rem',
+              name: 'Description',
+              sortable: true,
+              selector: (row: Row) => DOMPurify.sanitize(row.description),
+              cell: (row: Row) => (
+                <div
+                  className="job__table-description"
+                  dangerouslySetInnerHTML={{ __html: row.description != '' ? row.description : DOMPurify.sanitize('<b>N/A</b>') }}
+                ></div>
+              ),
+            },
+            {
+              name: 'Edit Job',
+              cell: (row: Row) => (
                 <Link aria-label="delete" color="secondary" href={`/${row._id}`}>
-                  <FaPenSquare size={30} />
+                  <FaPenSquare size={20} />
                 </Link>
               ),
             },
-          ]);
+          ];
+
+          setColumns(columns);
         }
       } catch (e) {
         console.log(e);
@@ -44,13 +88,13 @@ const AdminJobTable = () => {
   }, []);
 
   useEffect(() => {
-    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error }} />);
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
     // reset toast
     setError(null);
   }, [error]);
 
   useEffect(() => {
-    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: success }} />);
+    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(success) }} />);
     // reset toast
     setSuccess(null);
   }, [success]);
@@ -84,11 +128,14 @@ const AdminJobTable = () => {
     <div className="job__table">
       <DataTable
         onSelectedRowsChange={(rows) => {
-          if (rows.selectedRows.length > 0) setSelectedRows(rows.selectedRows as []);
+          setSelectedRows(rows.selectedRows as []);
+          if (rows.selectedRows.length <= 0) {
+            setToggledClearRows(!toggledClearRows);
+          }
         }}
         actions={
-          <button className="job__table-delete-action" onClick={onClick}>
-            <FaTrash size={30} />
+          <button className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'} onClick={onClick}>
+            <FaTrash size={20} />
           </button>
         }
         responsive

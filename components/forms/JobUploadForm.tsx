@@ -6,6 +6,7 @@ import Select from '../Select';
 import { toast } from 'react-toastify';
 import { jobSchema } from '@/validations/jobSchema';
 import { formatJob, formatZodErrors } from '@/validations/helper';
+import DOMPurify from 'dompurify';
 
 const JobUploadForm = (props: { apiKey: string }) => {
   const { apiKey } = props;
@@ -88,13 +89,13 @@ const JobUploadForm = (props: { apiKey: string }) => {
   }
 
   useEffect(() => {
-    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error }} />);
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
     // reset toast
     setError(null);
   }, [error]);
 
   useEffect(() => {
-    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: success }} />);
+    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(success) }} />);
     // reset toast
     setSuccess(null);
   }, [success]);

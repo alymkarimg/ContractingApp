@@ -208,13 +208,6 @@ textarea {
   border: 0.06rem solid;
 }
 
-/* Table */
-
-.job__table-delete-action {
-  z-index: 100;
-  position: relative;
-}
-
 /* Media queries */
 
 /* large laptop */
