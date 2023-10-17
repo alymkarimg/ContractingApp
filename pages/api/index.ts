@@ -45,9 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const object = fields.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
 
-        jobSchema().parse(formatJob(object as IJobForm));
+        jobSchema().parse(formatJob(object));
 
-        await Job.create(formatJob(object as IJobForm));
+        await Job.create(formatJob(object));
         res.status(200).json({ message: 'Job successfully uploaded' });
       } catch (e: unknown) {
         console.error(e);
