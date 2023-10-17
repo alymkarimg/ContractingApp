@@ -4,7 +4,6 @@ import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
 import Job from '../../models/Job';
 import { formatJob } from '@/validations/helper';
-import { IJobForm } from '@/interfaces/job.interface';
 import { parseForm } from '@/helper';
 
 export const config = {
