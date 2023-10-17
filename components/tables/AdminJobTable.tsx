@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
 
-export const AdminJobTable = () => {
+const AdminJobTable = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [data, setData] = useState([]);
@@ -85,3 +85,5 @@ export const AdminJobTable = () => {
     />
   );
 };
+
+export default AdminJobTable;

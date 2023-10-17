@@ -1,4 +1,4 @@
-import { AdminJobTable } from '@/components/tables/AdminJobTable';
+import AdminJobTable from '@/components/tables/AdminJobTable';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
