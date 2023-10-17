@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { toast } from 'react-toastify';
 
-export const AdminJobTable = ({}) => {
+export const AdminJobTable = () => {
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState<TableColumn<{ [x: string]: string }>[]>([]);
   const [selectedRows, setSelectedRows] = useState<{ [x: string]: string }[]>([]);
+  const [toggledClearRows, setToggledClearRows] = useState<boolean>(false);
 
   useEffect(() => {
     const getJobs = async () => {
@@ -14,7 +18,7 @@ export const AdminJobTable = ({}) => {
         if (response.ok) {
           setData(jobs.data);
           setColumns(
-            Object.keys(jobs.data[1]).map((q: string) => {
+            Object.keys(jobs.data[0]).map((q: string) => {
               return { name: q, selector: (row) => row[q], sortable: true };
             })
           );
@@ -26,29 +30,43 @@ export const AdminJobTable = ({}) => {
     getJobs();
   }, []);
 
+  useEffect(() => {
+    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: error }} />);
+    // reset toast
+    setError(null);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: success }} />);
+    // reset toast
+    setSuccess(null);
+  }, [success]);
+
   const onClick = async () => {
     try {
       const formData = new FormData();
+      formData.append('selectedRows', JSON.stringify(selectedRows));
 
-      formData.append('selectedRows', selectedRows.toString());
-      const response = await fetch(`api/admin-area`, { method: 'DELETE', body: formData });
-      const jobs = await response.json();
+      const response = await fetch(`/api/admin-area`, { method: 'PUT', body: formData });
+      const body = await response.json();
       if (response.ok) {
-        setData(jobs.data);
-        setColumns(
-          Object.keys(jobs.data[1]).map((q: string) => {
-            return { name: q, selector: (row) => row[q], sortable: true };
-          })
-        );
+        setSuccess(body.message);
+        const newRows = data.filter((el) => !selectedRows.includes(el));
+        setData(newRows);
+        setSelectedRows([]);
+        setToggledClearRows(!toggledClearRows);
       }
     } catch (e) {
       console.log(e);
+      setError((e as { message: string }).message);
     }
   };
 
   return (
     <DataTable
-      onSelectedRowsChange={(rows) => setSelectedRows(rows.selectedRows)}
+      onSelectedRowsChange={(rows) => {
+        if (rows.selectedRows.length > 0) setSelectedRows(rows.selectedRows as []);
+      }}
       actions={
         <button className="job__table-delete-action" onClick={onClick}>
           Delete
@@ -61,9 +79,9 @@ export const AdminJobTable = ({}) => {
       columns={columns}
       data={data}
       dense
-      clearSelectedRows
       selectableRows
       pagination
+      clearSelectedRows={toggledClearRows}
     />
   );
 };

@@ -1,12 +1,12 @@
 import { IJobForm } from '@/interfaces/job.interface';
 
-export const formatJob = (object: IJobForm) => {
+export const formatJob = (object: { [x: string]: string }) => {
   return {
     title: object.title,
     location: object.location,
     datetime__start: new Date(object.datetime__start as string),
     datetime__end: new Date(object.datetime__end as string),
-    pay: object.pay * 100,
+    pay: parseInt(object.pay) * 100,
     occupation: object.occupation,
     description: object.description,
   };

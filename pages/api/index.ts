@@ -6,6 +6,7 @@ import formidable from 'formidable';
 import Job from '../../models/Job';
 import { formatJob } from '@/validations/helper';
 import { IJobForm } from '@/interfaces/job.interface';
+import { parseForm } from '@/helper';
 
 export const config = {
   api: {
@@ -20,6 +21,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (method) {
     case 'POST':
+      try {
+        const object = await parseForm(req);
+
+        jobSchema().parse(formatJob(object));
+
+        await Job.create(formatJob(object));
+        res.status(200).json({ message: 'Job successfully uploaded' });
+      } catch (e: unknown) {
+        console.error(e);
+        res.status(400).json({ message: (e as { message: string }).message });
+      }
+      break;
+    case 'PUT':
       try {
         const form = formidable();
         const fields: { key: string; value: string }[] = [];
@@ -38,21 +52,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json({ message: 'Job successfully uploaded' });
       } catch (e: unknown) {
         console.error(e);
-        res.status(404).json({ message: (e as { message: string }).message });
-      }
-      break;
-    case 'GET':
-      try {
-        const recipes = await Recipe.find({});
-        res.status(200).json({ data: recipes });
-      } catch (e) {
-        res.status(404).json({
-          message: 'Recipe search could not be performed.',
-        });
+        res.status(400).json({ message: (e as { message: string }).message });
       }
       break;
     default:
-      res.setHeader('Allow', ['POST, GET']);
+      res.setHeader('Allow', ['POST, PUT']);
       res.status(405).send(`Method ${method} is not allowed.`);
       break;
   }

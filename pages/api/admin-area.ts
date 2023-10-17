@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
-import formidable from 'formidable';
+import formidable, { Fields } from 'formidable';
 import Job from '../../models/Job';
+import { assertDefined, parseForm } from '@/helper';
 
 export const config = {
   api: {
@@ -20,30 +21,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const jobs = await Job.find({});
         res.status(200).json({ data: jobs });
       } catch (e) {
-        res.status(404).json({});
+        res.status(400).json({});
       }
 
       break;
-    case 'DELETE':
+    case 'PUT':
       try {
-        const form = formidable();
+        const object = await parseForm(req);
 
-        const [fields] = await form.parse(req);
-
-        const selectedRowsJson = fields['selectedRows'];
-
-        const selectedRows = JSON.parse(selectedRowsJson as never);
+        const selectedRows = JSON.parse(object.selectedRows);
 
         await Job.deleteMany({ _id: selectedRows.map((q: { _id: string }) => q._id) });
-        res.status(200).json({});
+        res.status(200).json({ message: 'Job was successfully deleted.' });
       } catch (e) {
-        res.status(404).json({
-          message: 'Job successfully deleted.',
+        res.status(400).json({
+          message: 'Job was not successfully deleted.',
         });
       }
       break;
     default:
-      res.setHeader('Allow', ['DELETE, GET']);
+      res.setHeader('Allow', ['PUT, GET']);
       res.status(405).send(`Method ${method} is not allowed.`);
       break;
   }
