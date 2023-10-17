@@ -1,4 +1,4 @@
-import JobUploadForm from '../components/forms/JobUploadForm';
+import JobUploadForm from '@/components/forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
