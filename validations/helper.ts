@@ -1,4 +1,4 @@
-import { IJobForm } from '@/interfaces/jobForm.interface';
+import { IJobForm } from '@/interfaces/job.interface';
 
 export const formatJob = (object: IJobForm) => {
   return {

@@ -5,7 +5,7 @@ import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
 import Job from '../../models/Job';
 import { formatJob } from '@/validations/helper';
-import { IJobForm } from '@/interfaces/jobForm.interface';
+import { IJobForm } from '@/interfaces/job.interface';
 
 export const config = {
   api: {
@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         jobSchema().parse(formatJob(object as IJobForm));
 
         await Job.create(formatJob(object as IJobForm));
-        res.status(200).json({ status: 'success', message: 'Job successfully uploaded' });
+        res.status(200).json({ message: 'Job successfully uploaded' });
       } catch (e: unknown) {
         console.error(e);
         res.status(404).json({ message: (e as { message: string }).message });
@@ -44,10 +44,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'GET':
       try {
         const recipes = await Recipe.find({});
-        res.status(200).json({ status: 'success', data: recipes });
+        res.status(200).json({ data: recipes });
       } catch (e) {
         res.status(404).json({
-          status: 'error',
           message: 'Recipe search could not be performed.',
         });
       }

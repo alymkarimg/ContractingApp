@@ -1,4 +1,5 @@
 .container {
+  max-width: 100%;
   position: relative;
   min-height: 100vh;
   padding: 0.5rem;
@@ -205,6 +206,13 @@ textarea {
   background: var(--white);
   border-radius: 0.3rem;
   border: 0.06rem solid;
+}
+
+/* Table */
+
+.job__table-delete-action {
+  z-index: 100;
+  position: relative;
 }
 
 /* Media queries */

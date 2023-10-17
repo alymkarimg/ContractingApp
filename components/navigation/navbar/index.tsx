@@ -22,7 +22,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/admin-job">
+                <Link href="/admin-area">
                   <p>Admin Area</p>
                 </Link>
               </li>

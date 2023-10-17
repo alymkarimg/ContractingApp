@@ -1,12 +1,8 @@
-import { JobUploadForm } from '@/components/forms/JobUploadForm';
+import { AdminJobTable } from '@/components/tables/AdminJobTable';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
-export const getServerSideProps = async () => {
-  return { props: { apiKey: process.env.GOOGLE_API_KEY } };
-};
-
-export default function Home({ apiKey }: { apiKey: string }) {
+export default function Home() {
   return (
     <main>
       <div className="container">
@@ -23,7 +19,7 @@ export default function Home({ apiKey }: { apiKey: string }) {
           theme="dark"
         />
         <h2>Job Upload</h2>
-        <JobUploadForm apiKey={apiKey} />
+        <AdminJobTable />
       </div>
       <footer>
         <p>

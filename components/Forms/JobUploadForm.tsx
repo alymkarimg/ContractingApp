@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { jobSchema } from '@/validations/jobSchema';
 import { formatJob, formatZodErrors } from '@/validations/helper';
 
-export default function Page(props: { apiKey: string }) {
+export const JobUploadForm = (props: { apiKey: string }) => {
   const { apiKey } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -145,4 +145,4 @@ export default function Page(props: { apiKey: string }) {
       </form>
     </>
   );
-}
+};
