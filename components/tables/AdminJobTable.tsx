@@ -4,6 +4,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
 import { FaTrash, FaPenSquare } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
+import { SpinnerDotted } from 'spinners-react';
 
 interface Row {
   [x: string]: string;
@@ -34,7 +35,7 @@ const AdminJobTable = () => {
             },
             {
               name: 'Location',
-              selector: (row: Row) => row.location,
+              selector: (row: Row) => row.formatted_address,
               sortable: true,
             },
             {
@@ -154,6 +155,7 @@ const AdminJobTable = () => {
         pagination
         clearSelectedRows={toggledClearRows}
         progressPending={pending}
+        progressComponent={<SpinnerDotted color="var(--primary)" />}
       />
       ;
     </div>
