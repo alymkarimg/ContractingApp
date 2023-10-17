@@ -35,9 +35,9 @@ export const JobUploadForm = (props: { apiKey: string }) => {
         formatJob({
           title,
           location,
-          datetime__start: dateStart?.toISOString(),
-          datetime__end: dateEnd?.toISOString(),
-          pay: pay[1],
+          datetime__start: dateStart!.toISOString(),
+          datetime__end: dateEnd!.toISOString(),
+          pay: pay[1].toString(),
           occupation: occupationValue,
           description,
         })
