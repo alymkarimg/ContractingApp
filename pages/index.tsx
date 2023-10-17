@@ -1,6 +1,7 @@
 import JobUploadForm from '@/components/forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
+import { IResponse } from '@/interfaces/response.interface';
 
 export const getServerSideProps = async () => {
   let url;
