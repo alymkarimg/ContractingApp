@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
+import { FaTrash, FaPenSquare } from 'react-icons/fa';
 
 const AdminJobTable = () => {
   const [error, setError] = useState<string | null>(null);
@@ -17,11 +19,22 @@ const AdminJobTable = () => {
         const jobs = await response.json();
         if (response.ok) {
           setData(jobs.data);
-          setColumns(
-            Object.keys(jobs.data[0]).map((q: string) => {
-              return { name: q, selector: (row) => row[q], sortable: true };
-            })
-          );
+          setColumns([
+            ...Object.keys(jobs.data[0]).map((q: string) => {
+              return {
+                name: q,
+                selector: (row: { [x: string]: string }) => row[q],
+                sortable: true,
+              };
+            }),
+            {
+              cell: (row) => (
+                <Link aria-label="delete" color="secondary" href={`/${row._id}`}>
+                  <FaPenSquare size={30} />
+                </Link>
+              ),
+            },
+          ]);
         }
       } catch (e) {
         console.log(e);
@@ -44,6 +57,11 @@ const AdminJobTable = () => {
 
   const onClick = async () => {
     try {
+      if (selectedRows.length <= 0) {
+        toast.warning('Please select a job to delete.');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('selectedRows', JSON.stringify(selectedRows));
 
@@ -63,26 +81,29 @@ const AdminJobTable = () => {
   };
 
   return (
-    <DataTable
-      onSelectedRowsChange={(rows) => {
-        if (rows.selectedRows.length > 0) setSelectedRows(rows.selectedRows as []);
-      }}
-      actions={
-        <button className="job__table-delete-action" onClick={onClick}>
-          Delete
-        </button>
-      }
-      responsive
-      className="job__table"
-      fixedHeaderScrollHeight="300px"
-      subHeaderWrap
-      columns={columns}
-      data={data}
-      dense
-      selectableRows
-      pagination
-      clearSelectedRows={toggledClearRows}
-    />
+    <div className="job__table">
+      <DataTable
+        onSelectedRowsChange={(rows) => {
+          if (rows.selectedRows.length > 0) setSelectedRows(rows.selectedRows as []);
+        }}
+        actions={
+          <button className="job__table-delete-action" onClick={onClick}>
+            <FaTrash size={30} />
+          </button>
+        }
+        responsive
+        className="job__table"
+        fixedHeaderScrollHeight="300px"
+        subHeaderWrap
+        columns={columns}
+        data={data}
+        dense
+        selectableRows
+        pagination
+        clearSelectedRows={toggledClearRows}
+      />
+      ;
+    </div>
   );
 };
 

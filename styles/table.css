@@ -1,0 +1,10 @@
+.job__table {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+
+.job__table-delete-action:hover {
+  color: var(--primary);
+}

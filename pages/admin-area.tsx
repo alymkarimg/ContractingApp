@@ -18,7 +18,7 @@ export default function Home() {
           pauseOnHover
           theme="dark"
         />
-        <h2>Job Upload</h2>
+        <h2>Edit/Delete Jobs</h2>
         <AdminJobTable />
       </div>
       <footer>
