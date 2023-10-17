@@ -10,6 +10,10 @@
   font-weight: 500;
 }
 
+.job__table .rdt_TableHead * {
+  font-weight: bold;
+}
+
 .job__table .rdt_TableBody [role='cell'] div {
   white-space: wrap;
 }
@@ -44,6 +48,7 @@
 
 .job__table .rdt_TableHeader {
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 #pagination-first-page,

@@ -10,6 +10,7 @@ interface Row {
 }
 
 const AdminJobTable = () => {
+  const [pending, setPending] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [data, setData] = useState([]);
@@ -33,7 +34,7 @@ const AdminJobTable = () => {
             },
             {
               name: 'Location',
-              selector: (row: Row) => row.address,
+              selector: (row: Row) => row.location,
               sortable: true,
             },
             {
@@ -84,7 +85,11 @@ const AdminJobTable = () => {
         console.log(e);
       }
     };
-    getJobs();
+    const timeout = setTimeout(() => {
+      getJobs();
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -148,6 +153,7 @@ const AdminJobTable = () => {
         selectableRows
         pagination
         clearSelectedRows={toggledClearRows}
+        progressPending={pending}
       />
       ;
     </div>
