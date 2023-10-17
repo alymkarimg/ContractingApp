@@ -35,7 +35,7 @@
   background-color: var(--black);
   color: var(--white);
   font-size: 1rem;
-  transition-duration: 0;
+  transition-duration: 0ms;
 }
 
 .job__table .rdt_TableHeader {
