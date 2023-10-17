@@ -4,8 +4,8 @@ export const formatJob = (object: { [x: string]: string }) => {
   return {
     title: object.title,
     location: object.location,
-    datetime__start: new Date(object.datetime__start as string),
-    datetime__end: new Date(object.datetime__end as string),
+    datetime__start: new Date(object.datetime__start),
+    datetime__end: new Date(object.datetime__end),
     pay: parseInt(object.pay) * 100,
     occupation: object.occupation,
     description: object.description,

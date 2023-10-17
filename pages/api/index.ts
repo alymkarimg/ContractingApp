@@ -33,21 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
     case 'PUT':
       try {
-        const form = formidable();
-        const fields: { key: string; value: string }[] = [];
-
-        form.on('field', (fieldName, fieldValue) => {
-          fields.push({ key: fieldName, value: fieldValue });
-        });
-
-        await form.parse(req);
-
-        const object = fields.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
+        const object = await parseForm(req);
 
         jobSchema().parse(formatJob(object));
 
-        await Job.create(formatJob(object));
-        res.status(200).json({ message: 'Job successfully uploaded' });
+        await Job.updateOne(formatJob({ _id: object._id }));
+        res.status(200).json({ message: 'Job successfully updated' });
       } catch (e: unknown) {
         console.error(e);
         res.status(400).json({ message: (e as { message: string }).message });
