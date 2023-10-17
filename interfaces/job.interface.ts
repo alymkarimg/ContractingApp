@@ -1,6 +1,7 @@
 export interface IJobForm {
   title: string;
   location: string;
+  address: string;
   datetime__start?: string;
   datetime__end?: string;
   pay: number;
@@ -12,6 +13,7 @@ export interface IJob {
   _id: string;
   title: string;
   location: string;
+  address: string;
   datetime__start?: string;
   datetime__end?: string;
   pay: number;

@@ -10,6 +10,10 @@
   font-weight: 500;
 }
 
+.job__table .rdt_TableBody [role='cell'] div {
+  white-space: wrap;
+}
+
 .job__table-delete-action:hover {
   color: var(--white);
 }

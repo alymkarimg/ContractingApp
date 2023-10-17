@@ -31,11 +31,22 @@ const JobUploadForm = (props: { apiKey: string }) => {
     setIsLoading(true);
     setError(null); // Clear previous errors when a new request starts
 
+    // query place details
+    let address;
+    try {
+      const response = await fetch(`api/place-details?query=${location}`);
+      const placeDetailsJson = await response.json();
+      address = placeDetailsJson.formatted_address;
+    } catch (e) {
+      console.log(e);
+    }
+
     try {
       jobSchema().parse(
         formatJob({
           title,
           location,
+          address,
           datetime__start: dateStart ? dateStart.toISOString() : '',
           datetime__end: dateEnd ? dateEnd.toISOString() : '',
           pay: pay[1].toString(),
@@ -47,6 +58,7 @@ const JobUploadForm = (props: { apiKey: string }) => {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('location', location);
+      formData.append('address', address);
       formData.append('datetime__start', dateStart?.toString() ?? '');
       formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());

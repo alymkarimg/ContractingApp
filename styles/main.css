@@ -208,6 +208,11 @@ textarea {
   border: 0.06rem solid;
 }
 
+/* location search box */
+.location ul > li.react-search-box-dropdown-list-item {
+  padding: 2rem;
+}
+
 /* Media queries */
 
 /* large laptop */
@@ -236,8 +241,4 @@ textarea {
   .container .form__container {
     width: 19rem;
   }
-}
-
-.location ul > li.react-search-box-dropdown-list-item {
-  padding: 2rem;
 }

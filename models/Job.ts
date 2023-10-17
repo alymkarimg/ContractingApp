@@ -10,6 +10,10 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
   datetime__start: {
     type: Date,
     required: true,

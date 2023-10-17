@@ -33,7 +33,7 @@ const AdminJobTable = () => {
             },
             {
               name: 'Location',
-              selector: (row: Row) => row.location,
+              selector: (row: Row) => row.address,
               sortable: true,
             },
             {
