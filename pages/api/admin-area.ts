@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
-import formidable, { Fields } from 'formidable';
 import Job from '../../models/Job';
-import { assertDefined, parseForm } from '@/helper';
+import { parseForm } from '@/helper';
 
 export const config = {
   api: {

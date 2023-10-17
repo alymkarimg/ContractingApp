@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
-import Recipe from '../../models/Job';
 import { jobSchema } from '../../validations/jobSchema';
 import formidable from 'formidable';
 import Job from '../../models/Job';
