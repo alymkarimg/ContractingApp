@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
 import { jobSchema } from '../../validations/jobSchema';
-import formidable from 'formidable';
 import Job from '../../models/Job';
 import { formatJob } from '@/validations/helper';
 import { parseForm } from '@/helper';
@@ -14,10 +13,20 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
+  const { id } = req.query;
 
   await dbConnect();
 
   switch (method) {
+    case 'GET':
+      try {
+        const job = await Job.findOne({ _id: id });
+        res.status(200).json({ data: job });
+      } catch (e) {
+        res.status(400).json({});
+      }
+
+      break;
     case 'POST':
       try {
         const object = await parseForm(req);
@@ -37,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         jobSchema().parse(formatJob(object));
 
-        await Job.updateOne(formatJob({ _id: object._id }));
+        await Job.updateOne({ _id: object._id }, formatJob(object));
         res.status(200).json({ message: 'Job successfully updated' });
       } catch (e: unknown) {
         console.error(e);

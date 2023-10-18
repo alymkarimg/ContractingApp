@@ -7,11 +7,14 @@ import { toast } from 'react-toastify';
 import { jobSchema } from '@/validations/jobSchema';
 import { formatJob, formatZodErrors } from '@/validations/helper';
 import DOMPurify from 'dompurify';
+import { IJob } from '@/interfaces/job.interface';
+import _ from 'lodash';
+import { useRouter } from 'next/navigation';
 
-const JobUploadForm = (props: { apiKey: string }) => {
-  const { apiKey } = props;
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
+  const { apiKey, data } = props;
+  const isAddMode = !data;
+  const [isLoading, setIsLoading] = useState<boolean>(!isAddMode);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -25,6 +28,8 @@ const JobUploadForm = (props: { apiKey: string }) => {
   const [occupation, setOccupation] = useState({ value: '', label: '' });
   const [occupationValue, setOccupationValue] = useState('');
   const [description, setDescription] = useState('');
+
+  const router = useRouter();
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,7 +77,7 @@ const JobUploadForm = (props: { apiKey: string }) => {
       formData.append('description', description);
 
       const response = await fetch('/api', {
-        method: 'POST',
+        method: isAddMode ? 'POST' : 'PUT',
         body: formData,
       });
 
@@ -81,7 +86,7 @@ const JobUploadForm = (props: { apiKey: string }) => {
         throw new Error(errorText.message);
       }
 
-      if (response.ok) {
+      if (response.ok && isAddMode) {
         // Handle response if necessary
         const data = await response.json();
 
@@ -97,6 +102,8 @@ const JobUploadForm = (props: { apiKey: string }) => {
         setOccupation({ value: '', label: '' });
         setOccupationValue('');
         setDescription('');
+      } else {
+        router.push(`/admin-area?success=${true}`);
       }
     } catch (e: unknown) {
       // Capture the error message to display to the user
@@ -106,6 +113,23 @@ const JobUploadForm = (props: { apiKey: string }) => {
     }
   }
 
+  // populate data
+  useEffect(() => {
+    if (data && !_.isEmpty(data)) {
+      // populate] all state
+      setTitle(data.title);
+      setLocation(data.location);
+      setLocationQuery(data.address);
+      setDateStart(new Date(data.datetime__start!));
+      setDateEnd(new Date(data.datetime__end!));
+      setPay([0, data.pay / 100]);
+      setOccupation({ value: data.occupation, label: _.capitalize(data.occupation) });
+      setOccupationValue(data.occupation);
+      setDescription(data.description);
+    }
+  }, [data]);
+
+  // toast stuff
   useEffect(() => {
     if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
     // reset toast
@@ -118,6 +142,7 @@ const JobUploadForm = (props: { apiKey: string }) => {
     setSuccess(null);
   }, [success]);
 
+  // form stuff
   const filterTime = (time: string | number | Date) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);

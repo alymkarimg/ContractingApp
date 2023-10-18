@@ -8,7 +8,7 @@ export const formatJob = (object: { [x: string]: string }) => {
     datetime__start: new Date(object.datetime__start),
     datetime__end: new Date(object.datetime__end),
     pay: parseInt(object.pay) * 100,
-    occupation: object.occupation,
+    occupation: object.occupation.toLowerCase(),
     description: object.description,
   };
 };
