@@ -86,8 +86,8 @@ const AdminJobTable = () => {
         console.log(e);
       }
     };
-    const timeout = setTimeout(() => {
-      getJobs();
+    const timeout = setTimeout(async () => {
+      await getJobs();
       setPending(false);
     }, 2000);
     return () => clearTimeout(timeout);
