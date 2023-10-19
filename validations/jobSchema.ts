@@ -8,18 +8,18 @@ export const jobSchema = () => {
       address: z
         .string({
           errorMap: () => {
-            return { message: 'Expected a address to be supplied, please select a location' };
+            return { message: '' };
           },
         })
-        .min(1, { message: 'Expected an address to be supplied, please select a location' }),
+        .min(1, { message: '' }),
       lat: z.number({
         errorMap: () => {
-          return { message: 'Expected a latitude to be supplied, please select a location' };
+          return { message: '' };
         },
       }),
       lng: z.number({
         errorMap: () => {
-          return { message: 'Expected a longitude to be supplied, please select a location' };
+          return { message: '' };
         },
       }),
       datetime__start: z.date({

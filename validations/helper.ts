@@ -16,7 +16,7 @@ export const formatJob = (object: { [x: string]: string }) => {
 export const formatZodErrors = (e: { message: string }[]) => {
   let str = '';
   e.forEach(function (error) {
-    str += '<li>' + error.message + '</li>'; // build the list
+    if (error.message) str += '<li>' + error.message + '</li>'; // build the list
   });
 
   return str;

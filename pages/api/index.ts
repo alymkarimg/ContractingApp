@@ -46,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         jobSchema().parse(formatJob(object));
 
-        await Job.updateOne({ _id: object._id }, formatJob(object));
+        await Job.findByIdAndUpdate(id, formatJob(object));
         res.status(200).json({ message: 'Job successfully updated' });
       } catch (e: unknown) {
         console.error(e);

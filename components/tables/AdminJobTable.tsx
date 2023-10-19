@@ -1,97 +1,34 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
 import { FaTrash, FaPenSquare } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import { SpinnerDotted } from 'spinners-react';
+import { IJob } from '@/interfaces/job.interface';
 
-interface Row {
-  [x: string]: string;
-}
-
-const AdminJobTable = () => {
+const AdminJobTable = ({
+  data,
+  columns,
+  setData,
+}: {
+  data: IJob[];
+  columns: TableColumn<IJob>[];
+  setData: Dispatch<SetStateAction<IJob[]>>;
+  setColumns: Dispatch<SetStateAction<TableColumn<IJob>[]>>;
+}) => {
   const [pending, setPending] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [data, setData] = useState([]);
-  const [columns, setColumns] = useState<TableColumn<{ [x: string]: string }>[]>([]);
-  const [selectedRows, setSelectedRows] = useState<{ [x: string]: string }[]>([]);
+  const [selectedRows, setSelectedRows] = useState<IJob[]>([]);
   const [toggledClearRows, setToggledClearRows] = useState<boolean>(false);
 
   useEffect(() => {
-    const getJobs = async () => {
-      try {
-        const response = await fetch(`api/admin-area`);
-        const jobs = await response.json();
-
-        if (response.ok) {
-          setData(jobs.data);
-          const columns = [
-            {
-              name: 'Title',
-              selector: (row: Row) => row.title,
-              sortable: true,
-            },
-            {
-              name: 'Location',
-              selector: (row: Row) => row.address,
-              sortable: true,
-            },
-            {
-              name: 'Start',
-              selector: (row: Row) => new Date(row.datetime__start!).toLocaleString(),
-              sortable: true,
-            },
-            {
-              name: 'End',
-              selector: (row: Row) => new Date(row.datetime__end!).toLocaleString(),
-              sortable: true,
-            },
-            {
-              name: 'Pay',
-              selector: (row: Row) => `£${parseInt(row.pay) / 100}`,
-              sortable: true,
-            },
-            {
-              name: 'Occupation',
-              selector: (row: Row) => row.occupation,
-              sortable: true,
-            },
-            {
-              width: '30rem',
-              name: 'Description',
-              sortable: true,
-              selector: (row: Row) => DOMPurify.sanitize(row.description),
-              cell: (row: Row) => (
-                <div
-                  className="job__table-description"
-                  dangerouslySetInnerHTML={{ __html: row.description != '' ? row.description : DOMPurify.sanitize('<b>N/A</b>') }}
-                ></div>
-              ),
-            },
-            {
-              name: 'Edit Job',
-              cell: (row: Row) => (
-                <Link aria-label="delete" color="secondary" href={`/${row._id}`}>
-                  <FaPenSquare size={20} />
-                </Link>
-              ),
-            },
-          ];
-
-          setColumns(columns);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
     const timeout = setTimeout(async () => {
-      await getJobs();
-      setPending(false);
+      await setPending(false);
     }, 2000);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
