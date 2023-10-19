@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'react-toastify';
-import { FaTrash, FaPenSquare } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import { SpinnerDotted } from 'spinners-react';
 import { IJob } from '@/interfaces/job.interface';
