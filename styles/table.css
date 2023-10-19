@@ -6,6 +6,10 @@
   background-color: var(--white);
 }
 
+.job__table__spinner {
+  margin-bottom: 5rem;
+}
+
 .job__table * {
   font-weight: 500;
 }

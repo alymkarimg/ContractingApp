@@ -38,7 +38,7 @@ export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
           theme="dark"
         />
         <h2>Edit Job</h2>
-        <JobUploadForm apiKey={apiKey} data={data} />
+        <JobUploadForm isAddMode={false} apiKey={apiKey} data={data} />
       </div>
       <footer>
         <p>

@@ -1,13 +1,14 @@
 import AdminJobTable from '@/components/tables/AdminJobTable';
 import { ToastContainer, toast } from 'react-toastify';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
 import { TableColumn } from 'react-data-table-component';
 import { FaPenSquare } from 'react-icons/fa';
 import { IJob } from '@/interfaces/job.interface';
+import Swal from 'sweetalert2';
 
 export async function getServerSideProps({ query }: { query: { success?: string } }) {
   return {
@@ -15,11 +16,27 @@ export async function getServerSideProps({ query }: { query: { success?: string 
   };
 }
 
+const onClick = async (id: string, router: NextRouter) => {
+  const result = await Swal.fire({
+    title: 'Do you want to edit the selected item?',
+    showDenyButton: true,
+    confirmButtonText: 'Edit',
+  });
+
+  if (result.isConfirmed) {
+    router.push(`/${id}`);
+  } else if (result.isDenied) {
+    Swal.fire('Items is not edited', '', 'info');
+  }
+
+  <Link aria-label="delete" color="secondary" href={`/${id}`}></Link>;
+};
+
 export default function AdminArea({ success }: { success?: string }) {
   const router = useRouter();
   const [data, setData] = useState<IJob[]>([]);
   const [columns, setColumns] = useState<TableColumn<IJob>[]>([]);
-  const getJobs = async () => {
+  const getJobs = useCallback(async () => {
     try {
       const response = await fetch(`api/admin-area`);
       const jobs = await response.json();
@@ -72,9 +89,9 @@ export default function AdminArea({ success }: { success?: string }) {
           {
             name: 'Edit Job',
             cell: (row: IJob) => (
-              <Link aria-label="delete" color="secondary" href={`/${row._id}`}>
-                <FaPenSquare size={20} />
-              </Link>
+              <button onClick={() => onClick(row._id, router)}>
+                <FaPenSquare size={20} />;
+              </button>
             ),
           },
         ];
@@ -84,7 +101,7 @@ export default function AdminArea({ success }: { success?: string }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     getJobs();
@@ -97,7 +114,7 @@ export default function AdminArea({ success }: { success?: string }) {
       getJobs();
     }
     // reset toast
-  }, [router, success]);
+  }, [getJobs, router, success]);
 
   return (
     <main>

@@ -19,7 +19,7 @@ export default function Home({ apiKey }: { apiKey: string }) {
           theme="dark"
         />
         <h2>Job Upload</h2>
-        <JobUploadForm apiKey={apiKey} />
+        <JobUploadForm isAddMode={true} apiKey={apiKey} />
       </div>
       <footer>
         <p>

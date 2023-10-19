@@ -11,9 +11,8 @@ import { IJob } from '@/interfaces/job.interface';
 import _ from 'lodash';
 import { useRouter } from 'next/navigation';
 
-const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
-  const { apiKey, data } = props;
-  const isAddMode = !data;
+const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean }) => {
+  const { apiKey, data, isAddMode } = props;
   const [isLoading, setIsLoading] = useState<boolean>(!isAddMode);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -76,7 +75,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
       formData.append('occupation', occupationValue);
       formData.append('description', description);
 
-      const response = await fetch(`/api${isAddMode ? '' : `?id=${data._id}`}`, {
+      const response = await fetch(`/api${isAddMode ? '' : `?id=${data!._id}`}`, {
         method: isAddMode ? 'Post' : 'PUT',
         body: formData,
       });
@@ -105,11 +104,11 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
       } else {
         router.push(`/admin-area?success=${true}`);
       }
-
-      setIsLoading(false);
     } catch (e: unknown) {
       // Capture the error message to display to the user
       setError(formatZodErrors(JSON.parse((e as { message: string }).message)));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -124,7 +123,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
       setDateEnd(new Date(data.datetime__end!));
       setPay([0, data.pay / 100]);
       setOccupation({ value: data.occupation, label: _.capitalize(data.occupation) });
-      setOccupationValue(data.occupation);
+      setOccupationValue(_.capitalize(data.occupation));
       setDescription(data.description);
       setIsLoading(false);
     }
@@ -150,52 +149,50 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob }) => {
 
     return currentDate.getTime() < selectedDate.getTime();
   };
-
   return (
     <>
-      {(!_.isEmpty(data) && !isAddMode) ||
-        (isAddMode && (
-          <form onSubmit={onSubmit} className="form__container">
-            <div className="title block">
-              <label htmlFor="frm-title">Title*:</label>
-              <input value={title} onChange={(e) => setTitle(e.currentTarget.value)} id="frm-title" type="text" className="no-margin-front" />
-            </div>
-            <div className="location block">
-              <label htmlFor="frm-location">Location*:</label>
-              <LocationSearchBox setLocation={setLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} apiKey={apiKey} />
-            </div>
-            <div className="datetime block">
-              <label>Start of job*:</label>
-              <DateRange state={dateStart} setState={setDateStart} filterTime={isAddMode ? filterTime : undefined} />
-            </div>
-            <div className="datetime block">
-              <label>End of job*:</label>
-              <DateRange state={dateEnd} setState={setDateEnd} filterTime={isAddMode ? filterTime : undefined} />
-            </div>
-            <div className="pay block">
-              <label>Pay (Per Hour)*:</label>
-              <SingleThumbRangeSlider state={pay} setState={setPay} min={0} max={100} />
-            </div>
-            <div className="occupation block">
-              <label htmlFor="frm-occupation">Occupation Required*:</label>
-              <Select
-                state={occupation}
-                setState={setOccupation as Dispatch<unknown>}
-                stateValue={occupationValue}
-                setStateValue={setOccupationValue}
-              />
-            </div>
-            <div className="description block">
-              <label htmlFor="frm-description">Job Description:</label>
-              <textarea value={description} onChange={(e) => setDescription(e.currentTarget.value)} id="frm-description" rows={6}></textarea>
-            </div>
-            <div className="button block">
-              <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'Submit'}
-              </button>
-            </div>
-          </form>
-        ))}
+      {(!_.isEmpty(data) || isAddMode) && (
+        <form onSubmit={onSubmit} className="form__container">
+          <div className="title block">
+            <label htmlFor="frm-title">Title*:</label>
+            <input value={title} onChange={(e) => setTitle(e.currentTarget.value)} id="frm-title" type="text" className="no-margin-front" />
+          </div>
+          <div className="location block">
+            <label htmlFor="frm-location">Location*:</label>
+            <LocationSearchBox setLocation={setLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} apiKey={apiKey} />
+          </div>
+          <div className="datetime block">
+            <label>Start of job*:</label>
+            <DateRange state={dateStart} setState={setDateStart} filterTime={isAddMode ? filterTime : undefined} />
+          </div>
+          <div className="datetime block">
+            <label>End of job*:</label>
+            <DateRange state={dateEnd} setState={setDateEnd} filterTime={isAddMode ? filterTime : undefined} />
+          </div>
+          <div className="pay block">
+            <label>Pay (Per Hour)*:</label>
+            <SingleThumbRangeSlider state={pay} setState={setPay} min={0} max={100} />
+          </div>
+          <div className="occupation block">
+            <label htmlFor="frm-occupation">Occupation Required*:</label>
+            <Select
+              state={occupation}
+              setState={setOccupation as Dispatch<unknown>}
+              stateValue={occupationValue}
+              setStateValue={setOccupationValue}
+            />
+          </div>
+          <div className="description block">
+            <label htmlFor="frm-description">Job Description:</label>
+            <textarea value={description} onChange={(e) => setDescription(e.currentTarget.value)} id="frm-description" rows={6}></textarea>
+          </div>
+          <div className="button block">
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Submit'}
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 };
