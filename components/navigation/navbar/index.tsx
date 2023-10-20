@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
-import Button from './Button';
+import LoginButton from './LoginButton';
 
 const Navbar = () => {
   return (
@@ -28,7 +28,7 @@ const Navbar = () => {
               </li>
               <li>
                 <p>
-                  <Button />
+                  <LoginButton />
                 </p>
               </li>
             </ul>
