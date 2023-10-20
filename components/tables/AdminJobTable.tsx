@@ -73,7 +73,7 @@ const AdminJobTable = ({
         setError((e as { message: string }).message);
       }
     } else if (result.isDenied) {
-      Swal.fire('Items are not deleted', '', 'info');
+      Swal.fire("Item'(s) are not deleted", '', 'info');
       setSelectedRows([]);
       setToggledClearRows(!toggledClearRows);
     }

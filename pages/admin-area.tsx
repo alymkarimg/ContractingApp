@@ -26,7 +26,7 @@ const onClick = async (id: string, router: NextRouter) => {
   if (result.isConfirmed) {
     router.push(`/${id}`);
   } else if (result.isDenied) {
-    Swal.fire('Items is not edited', '', 'info');
+    Swal.fire('Item is not edited', '', 'info');
   }
 
   <Link aria-label="delete" color="secondary" href={`/${id}`}></Link>;
