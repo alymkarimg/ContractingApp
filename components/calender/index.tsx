@@ -11,11 +11,9 @@ const mLocalizer = momentLocalizer(moment);
  */
 
 export default function Calendar({ localizer = mLocalizer, data, ...props }: { localizer?: typeof DateLocalizer; data: IJob[] }) {
-  const { defaultDate, max, min } = useMemo(
+  const { defaultDate } = useMemo(
     () => ({
       defaultDate: new Date(),
-      min: moment('09:00:00 AM', 'HH:mm:SS A').toDate(),
-      max: moment('05:00:00 PM', 'HH:mm:SS A').toDate(),
     }),
     []
   );
