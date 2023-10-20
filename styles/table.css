@@ -1,0 +1,63 @@
+.job__table {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--white);
+}
+
+.job__table__spinner {
+  margin-bottom: 5rem;
+}
+
+.job__table * {
+  font-weight: 500;
+}
+
+.job__table .rdt_TableHead * {
+  font-weight: bold;
+}
+
+.job__table .rdt_TableBody [role='cell'] div {
+  white-space: wrap;
+}
+
+.job__table-delete-action:hover {
+  color: var(--white);
+}
+
+/* Table */
+
+.job__table-delete-action {
+  z-index: 100;
+  position: relative;
+  margin: 1rem;
+  background-color: var(--black);
+  color: var(--primary);
+}
+
+.job__table-description {
+  overflow: overlay;
+  max-height: 7rem;
+  margin: 0.5rem;
+  margin-inline-start: 0;
+}
+
+.job__table .rdt_TableHeader div {
+  background-color: var(--black);
+  color: var(--white);
+  font-size: 1rem;
+  transition-duration: 0ms;
+}
+
+.job__table .rdt_TableHeader {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+#pagination-first-page,
+#pagination-previous-page,
+#pagination-next-page,
+#pagination-last-page {
+  margin-bottom: 0;
+}

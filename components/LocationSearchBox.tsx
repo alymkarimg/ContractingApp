@@ -35,7 +35,7 @@ export const LocationSearchBox = (props: {
 
       if (results) {
         setSearchResults((prev) => {
-          previousResults.current = prev?.predictions ?? [];
+          previousResults.current = prev?.predictions ?? results.predictions;
           return results;
         });
       }
@@ -72,7 +72,7 @@ export const LocationSearchBox = (props: {
 
           sort: false,
         }}
-        keys={['name']}
+        keys={['place_id']}
         clearInput={false}
         value={locationQuery}
         setValue={setLocationQuery}

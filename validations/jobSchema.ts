@@ -5,6 +5,23 @@ export const jobSchema = () => {
     .object({
       title: z.string().min(3, { message: 'Expected a title with more than three characters' }),
       location: z.string().min(1, { message: 'Expected a location to be selected' }),
+      address: z
+        .string({
+          errorMap: () => {
+            return { message: '' };
+          },
+        })
+        .min(1, { message: '' }),
+      lat: z.number({
+        errorMap: () => {
+          return { message: '' };
+        },
+      }),
+      lng: z.number({
+        errorMap: () => {
+          return { message: '' };
+        },
+      }),
       datetime__start: z.date({
         errorMap: () => {
           return { message: 'Expected a valid start date to be selected' };

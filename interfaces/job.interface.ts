@@ -1,6 +1,11 @@
-export interface IJobForm {
+export interface IJob {
+  _id: string;
+  __v: string;
   title: string;
   location: string;
+  address: string;
+  lat: number;
+  lng: number;
   datetime__start?: string;
   datetime__end?: string;
   pay: number;

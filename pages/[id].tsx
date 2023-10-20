@@ -1,8 +1,27 @@
 import JobUploadForm from '@/components/forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { IJob } from '@/interfaces/job.interface';
 
-export default function Home({ apiKey }: { apiKey: string }) {
+export async function getServerSideProps({ params }: { params: { id: string } }) {
+  return {
+    props: { id: params.id },
+  };
+}
+
+export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
+  const [data, setData] = useState<IJob>();
+
+  useEffect(() => {
+    const getFormData = async () => {
+      const response = await fetch(`/api?id=${id}`);
+      const job = await response.json();
+      setData(job.data);
+    };
+    getFormData();
+  }, [id]);
+
   return (
     <main>
       <div className="container">
@@ -18,8 +37,8 @@ export default function Home({ apiKey }: { apiKey: string }) {
           pauseOnHover
           theme="dark"
         />
-        <h2>Job Upload</h2>
-        <JobUploadForm isAddMode={true} apiKey={apiKey} />
+        <h2>Edit Job</h2>
+        <JobUploadForm isAddMode={false} apiKey={apiKey} data={data} />
       </div>
       <footer>
         <p>

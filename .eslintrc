@@ -2,6 +2,6 @@
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "next/core-web-vitals"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
-    "react-hooks/exhaustive-deps": "off"
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }
