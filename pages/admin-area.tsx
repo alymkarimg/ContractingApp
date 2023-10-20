@@ -82,7 +82,7 @@ export default function AdminArea({ success }: { success?: string }) {
             cell: (row: IJob) => (
               <div
                 className="job__table-description"
-                dangerouslySetInnerHTML={{ __html: row.description != '' ? row.description : DOMPurify.sanitize('<b>N/A</b>') }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(row.description != '' ? row.description : DOMPurify.sanitize('<b>N/A</b>')) }}
               ></div>
             ),
           },
