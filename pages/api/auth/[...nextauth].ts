@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
           async authorize(): Promise<User> {
             return {
               id: '1',
-              name: 'Test Account',
+              name: 'J Smith',
               email: 'jsmith@example.com',
               image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
             };
