@@ -3,6 +3,8 @@
 :root {
   --gradient: linear-gradient(315deg, #e9b7ceff, #e5c1d4ff, #e2cbdaff, #ded5e0ff, #dadfe5ff, #d7e9ebff, #d3f3f1ff);
   --primary: #714674;
+  --pink: #e9b7ceff;
+  --teal: #d3f3f1ff;
   --white: #ffffff;
   --black: #111111;
   --green-500: #8bc34a;

@@ -1,0 +1,94 @@
+.calendar__wrapper {
+  width: calc(100% - 4rem);
+  margin: 2rem;
+  margin-top: 0;
+  right: 0.5rem;
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+/* React big calendar */
+
+.rbc-calendar {
+  height: 40rem;
+  min-width: 40rem;
+  background-color: var(--white);
+}
+
+.calendar__wrapper .rbc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar__wrapper .rbc-current-time-indicator {
+  display: none;
+}
+
+.calendar__wrapper .rbc-btn-group {
+  margin-inline: 1rem;
+}
+
+.rbc-toolbar button:first-child {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.rbc-toolbar button:first-child:hover {
+  background-color: var(--pink);
+  color: var(--white);
+}
+
+.calendar__wrapper .rbc-toolbar-label {
+  text-align: end;
+  margin: 1rem;
+}
+
+.calendar__wrapper .rbc-day-slot .rbc-events-container {
+  margin: 0;
+}
+
+.calendar__wrapper .rbc-day-slot .rbc-event {
+  background-color: var(--primary);
+}
+
+.calendar__wrapper .rbc-event-label {
+  display: none;
+}
+
+.calendar__wrapper .rbc-time-column.rbc-today,
+.calendar__wrapper .rbc-header.rbc-today,
+.calendar__wrapper .rbc-day-bg.rbc-today {
+  background-color: var(--teal);
+}
+
+.calendar__wrapper .rbc-day-slot .calender__past-event {
+  background-color: var(--pink);
+  border: none;
+}
+
+.calendar__wrapper .calender__key {
+  list-style: none;
+  padding-inline-start: 0.5rem;
+  margin-top: 0;
+}
+
+.calender__past-event--key {
+  background-color: var(--pink);
+  width: 1rem;
+  height: 1rem;
+  border: 0.05rem solid var(--black);
+  display: inline-block;
+  margin-inline: 0.5rem;
+}
+
+.calender__current-event--key {
+  background-color: var(--primary);
+  width: 1rem;
+  height: 1rem;
+  border: 0.05rem solid var(--black);
+  display: inline-block;
+  margin-inline: 0.5rem;
+}
