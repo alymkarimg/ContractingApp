@@ -21,13 +21,22 @@ export const authOptions: NextAuthOptions = {
             },
             password: { label: 'Password', type: 'password' },
           },
-          async authorize(): Promise<User> {
-            return {
-              id: '1',
-              name: 'J Smith',
-              email: 'jsmith@example.com',
-              image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
-            };
+          async authorize(credentials): Promise<User> {
+            if (credentials?.username === 'employer') {
+              return {
+                id: '1',
+                name: 'J Smith',
+                email: 'jsmith@example.com',
+                image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
+              };
+            } else {
+              return {
+                id: '1',
+                name: 'J Smith',
+                email: 'jsmith@example.com',
+                image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
+              };
+            }
           },
         })
       : GoogleProvider({
