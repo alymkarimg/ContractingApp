@@ -90,7 +90,7 @@ export default function AdminArea({ success }: { success?: string }) {
             name: 'Edit Job',
             cell: (row: IJob) => (
               <button onClick={() => onClick(row._id, router)}>
-                <FaPenSquare size={20} />;
+                <FaPenSquare size={20} />
               </button>
             ),
           },
