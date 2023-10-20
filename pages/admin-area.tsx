@@ -105,7 +105,7 @@ export default function AdminArea({ success }: { success?: string }) {
 
   useEffect(() => {
     getJobs();
-  }, []);
+  }, [getJobs]);
 
   useEffect(() => {
     if (success) {
