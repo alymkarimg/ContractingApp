@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styles/navbar.css';
 import '../styles/table.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import 'react-tooltip/dist/react-tooltip.css';
 import '../styles/calendar.css';
 
 export default function App({ Component, pageProps }: AppProps) {
