@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Logo from './components/Logo';
 import LoginButton from './components/LoginButton';
 import { useSession } from 'next-auth/react';
+import Skeleton from 'react-loading-skeleton';
 
 const Navigation = () => {
   const { data: session, status } = useSession();
@@ -11,7 +12,7 @@ const Navigation = () => {
       <div className="navbar__container">
         <div className="navbar__container--inner">
           <Logo />
-          {status !== 'loading' && (
+          {(status !== 'loading' && (
             <ul className="navbar__list">
               {/* employers can modify jobs */}
               {session?.user.role === 'employer' && (
@@ -56,7 +57,7 @@ const Navigation = () => {
                 </p>
               </li>
             </ul>
-          )}
+          )) || <Skeleton />}
         </div>
       </div>
     </div>
