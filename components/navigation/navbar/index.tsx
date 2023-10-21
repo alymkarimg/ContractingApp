@@ -1,9 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
-import Button from './Button';
+import LoginButton from './LoginButton';
+import { useSession } from 'next-auth/react';
 
 const Navbar = () => {
+  const { data: session } = useSession();
   return (
     <>
       <div className="navbar">
@@ -26,9 +28,14 @@ const Navbar = () => {
                   <p>Admin Area</p>
                 </Link>
               </li>
+              {session && (
+                <li>
+                  <p>Signed in as {session.user!.email}</p>
+                </li>
+              )}
               <li>
                 <p>
-                  <Button />
+                  <LoginButton />
                 </p>
               </li>
             </ul>

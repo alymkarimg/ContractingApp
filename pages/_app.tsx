@@ -1,7 +1,6 @@
-import HeadSEO from '@/components/HeadSEO';
 import Navigation from '@/components/navigation';
 import type { AppProps } from 'next/app';
-
+import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';
 import '../styles/main.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,12 +9,11 @@ import '../styles/table.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/calendar.css';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <>
-      <HeadSEO />
-      <Navigation />
+    <SessionProvider session={session}>
+      <Navigation {...pageProps} />
       <Component {...pageProps} />
-    </>
+    </SessionProvider>
   );
 }
