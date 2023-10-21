@@ -28,7 +28,11 @@ const Navbar = () => {
                   <p>Admin Area</p>
                 </Link>
               </li>
-              <li>{session && <p>Signed in as {session.user!.email}</p>}</li>
+              {session && (
+                <li>
+                  <p>Signed in as {session.user!.email}</p>
+                </li>
+              )}
               <li>
                 <p>
                   <LoginButton />
