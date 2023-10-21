@@ -8,7 +8,26 @@ import clientPromise from '@/lib/mongoDbAdapter';
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   secret: process.env.NEXTAUTH_SECRET!,
+  session:
+    process.env.VERCEL_ENV === 'preview'
+      ? {
+          strategy: 'jwt',
+        }
+      : undefined,
   // Configure one or more authentication providers
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+    //whatever value we return here will be the value of the next-auth session
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: { ...session.user, ...token.user! }, // combine the session and db user
+      };
+    },
+  },
   providers: [
     process.env.VERCEL_ENV === 'preview'
       ? CredentialsProvider({
@@ -17,25 +36,34 @@ export const authOptions: NextAuthOptions = {
             username: {
               label: 'Username',
               type: 'text',
-              placeholder: 'jsmith',
+              placeholder: 'Please type in your username...',
             },
             password: { label: 'Password', type: 'password' },
           },
-          async authorize(credentials): Promise<User> {
-            if (credentials?.username === 'employer') {
-              return {
-                id: '1',
-                name: 'J Smith',
-                email: 'jsmith@example.com',
-                image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
-              };
+          async authorize(credentials): Promise<User | null> {
+            const employee = {
+              id: '1',
+              name: 'employee',
+              email: 'employee@example.com',
+              image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
+              password: 'blueberry',
+              role: 'employee',
+            };
+            const employer = {
+              id: '1',
+              name: 'employer',
+              email: 'employer@example.com',
+              image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
+              password: 'blackberry',
+              role: 'employer',
+            };
+
+            if (credentials?.username === employee.name && credentials?.password === employee.password) {
+              return employee;
+            } else if (credentials?.username === employer.name && credentials?.password === employer.password) {
+              return employer;
             } else {
-              return {
-                id: '1',
-                name: 'J Smith',
-                email: 'jsmith@example.com',
-                image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
-              };
+              return null;
             }
           },
         })
