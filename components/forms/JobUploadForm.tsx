@@ -126,7 +126,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
       setPay([0, data.pay / 100]);
       setOccupation({ value: data.occupation, label: _.capitalize(data.occupation) });
       setOccupationValue(_.capitalize(data.occupation));
-      setDescription(data.description);
+      setDescription(data.description ?? '');
       setIsLoading(false);
     }
   }, [data]);
