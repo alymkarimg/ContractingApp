@@ -1,11 +1,13 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
 
 const uri = process.env.MONGODB_URI;
-const options = {};
+const options = {
+  databaseName: process.env.VERCEL_ENV === 'production' ? `${process.env.DATABASE_NAME}_production` : `${process.env.DATABASE_NAME}`,
+};
 
 let client;
 let clientPromise: Promise<MongoClient>;
@@ -18,13 +20,13 @@ if (process.env.NODE_ENV === 'development') {
   };
 
   if (!globalWithMongo._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(uri, options as MongoClientOptions);
     globalWithMongo._mongoClientPromise = client.connect();
   }
   clientPromise = globalWithMongo._mongoClientPromise;
 } else {
   // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
+  client = new MongoClient(uri, options as MongoClientOptions);
   clientPromise = client.connect();
 }
 
