@@ -18,10 +18,10 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     //whatever value we return here will be the value of the next-auth session
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       return {
         ...session,
-        user: { ...session.user, ...token.user! }, // combine the session and db user
+        user: { ...session.user, ...user, ...token.user! }, // combine the session and db user
       };
     },
   },
@@ -67,6 +67,16 @@ export const authOptions: NextAuthOptions = {
       : GoogleProvider({
           clientId: process.env.GOOGLE_ID!,
           clientSecret: process.env.GOOGLE_SECRET!,
+          async profile(profile) {
+            return {
+              id: profile.sub, // I'd prefer not to have this but not supplying an id causes a TypeScript error
+              role: 'employee',
+              email: profile.email,
+              emailVerified: profile.email_verified,
+              name: profile.name,
+              image: profile.picture,
+            };
+          },
         }),
   ],
 };
