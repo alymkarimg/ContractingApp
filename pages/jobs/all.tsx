@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IJob } from '@/interfaces/job.interface';
-import Calender from '@/components/calender/Index';
+import Calender from '@/components/calendar/Index';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 import { getJobs } from './helper';
