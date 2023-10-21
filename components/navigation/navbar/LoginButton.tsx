@@ -3,16 +3,14 @@ export default function LoginButton() {
   const { data: session } = useSession();
   if (session && session.user) {
     return (
-      <>
-        Signed in as {session.user!.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
+      <button className="button button--teal" onClick={() => signOut()}>
+        Sign out
+      </button>
     );
   }
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    <button className="button button--teal" onClick={() => signIn()}>
+      Sign in
+    </button>
   );
 }

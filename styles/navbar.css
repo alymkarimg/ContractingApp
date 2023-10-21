@@ -34,6 +34,8 @@
   column-gap: 1.5rem; /* 24px */
   color: var(--black);
   list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .navbar__button {
@@ -51,7 +53,23 @@
 }
 
 .navbar li p {
+  margin-block: 5px;
+}
+
+.button.button--teal {
+  background-color: var(--teal);
+  color: var(--black);
+  padding: 0.625rem;
+  font-size: 1.3rem;
+  border-radius: 0.3rem;
+  opacity: 1;
   margin-bottom: 0;
+}
+
+.button.button--teal:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: 0.3s;
 }
 
 /* large mobile */
