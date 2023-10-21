@@ -1,9 +1,9 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Logo from './components/Logo';
 import LoginButton from './components/LoginButton';
 import { useSession } from 'next-auth/react';
-import Skeleton from 'react-loading-skeleton';
+import { SpinnerDotted } from 'spinners-react';
 
 const Navigation = () => {
   const { data: session, status } = useSession();
@@ -57,7 +57,15 @@ const Navigation = () => {
                 </p>
               </li>
             </ul>
-          )) || <Skeleton count={10} height={20} />}
+          )) || (
+            <div className="navbar">
+              <div className="navbar__container">
+                <div className="navbar__container--inner">
+                  <SpinnerDotted color="var(--primary)" />{' '}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
