@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
               name: 'employee',
               email: 'employee@example.com',
               image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
-              password: 'blueberry',
+              password: process.env.EMPLOYEE_PASSWORD,
               role: 'employee',
             };
             const employer = {
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
               name: 'employer',
               email: 'employer@example.com',
               image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
-              password: 'blackberry',
+              password: process.env.EMPLOYER_PASSWORD,
               role: 'employer',
             };
 
