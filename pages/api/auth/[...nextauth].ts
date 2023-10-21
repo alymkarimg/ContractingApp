@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
           },
           async authorize(credentials): Promise<User | null> {
             const employee = {
-              id: '1',
+              id: '65344b6505e3880049f927c8',
               name: 'employee',
               email: 'employee@example.com',
               image: 'https://i.pravatar.cc/150?u=jsmith@example.com',
@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
               role: 'employee',
             };
             const employer = {
-              id: '1',
+              id: '65344b6dde0dbe3626ee57db',
               name: 'employer',
               email: 'employer@example.com',
               image: 'https://i.pravatar.cc/150?u=jsmith@example.com',

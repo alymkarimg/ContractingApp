@@ -3,15 +3,16 @@ import Link from 'next/link';
 import Logo from './components/Logo';
 import LoginButton from './components/LoginButton';
 import { useSession } from 'next-auth/react';
+import { SpinnerDotted } from 'spinners-react';
 
 const Navigation = () => {
   const { data: session, status } = useSession();
   return (
-    <>
-      <div className="navbar">
-        <div className="navbar__container">
-          <div className="navbar__container--inner">
-            <Logo />
+    <div className="navbar">
+      <div className="navbar__container">
+        <div className="navbar__container--inner">
+          <Logo />
+          {status !== 'loading' && (
             <ul className="navbar__list">
               {/* employers can modify jobs */}
               {session?.user.role === 'employer' && (
@@ -56,10 +57,10 @@ const Navigation = () => {
                 </p>
               </li>
             </ul>
-          </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
