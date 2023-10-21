@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Calendar as RBC, DateLocalizer, momentLocalizer, Views } from 'react-big-calendar';
 import { IJob } from '@/interfaces/job.interface';
 import { useToasts } from '../Helper';
-import { getJobs } from '@/pages/jobs/helper';
+import { getJobs } from '@/components/Helper';
 import Swal from 'sweetalert2';
 
 const mLocalizer = momentLocalizer(moment);

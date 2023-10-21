@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import { useRouter } from 'next/router';
 import { TableColumn } from 'react-data-table-component';
 import { IJob } from '@/interfaces/job.interface';
-import { getJobs } from '../helper';
+import { getJobs } from '@/components/Helper';
 import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/AccessDenied';
 

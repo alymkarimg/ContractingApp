@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IJob } from '@/interfaces/job.interface';
-import { getFormData } from './helper';
+import { getFormData } from '@/components/Helper';
 import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/AccessDenied';
 

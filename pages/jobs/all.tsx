@@ -3,7 +3,7 @@ import { IJob } from '@/interfaces/job.interface';
 import Calender from '@/components/calendar/Index';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
-import { getJobs } from './helper';
+import { getJobs } from '@/components/Helper';
 import AccessDenied from '@/components/AccessDenied';
 import { useSession } from 'next-auth/react';
 

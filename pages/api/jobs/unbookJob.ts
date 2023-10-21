@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/dbConnect';
 import Job from '../../../models/Job';
-import { ObjectId } from 'mongodb';
 
 export const config = {
   api: {
