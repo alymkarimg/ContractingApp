@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
               role: 'employer',
             };
 
-            if (credentials?.username === employee.name && credentials?.password === employee.password) {
+            if (credentials?.username.toLowerCase() === employee.name && credentials?.password === employee.password) {
               return employee;
             } else if (credentials?.username === employer.name && credentials?.password === employer.password) {
               return employer;
