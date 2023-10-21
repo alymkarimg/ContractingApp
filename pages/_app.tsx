@@ -1,4 +1,4 @@
-import Navigation from '@/components/navigation';
+import Navigation from '@/components/navigation/Index';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';

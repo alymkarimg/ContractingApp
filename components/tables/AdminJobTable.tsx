@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { toast } from 'react-toastify';
 import { FaTrash } from 'react-icons/fa';
-import DOMPurify from 'dompurify';
 import { SpinnerDotted } from 'spinners-react';
 import { IJob } from '@/interfaces/job.interface';
-import Swal from 'sweetalert2';
+import { onClickDelete } from './TableHelper';
+import { useToasts } from '../Helper';
 
 const AdminJobTable = ({
   data,
@@ -17,12 +16,13 @@ const AdminJobTable = ({
   setData: Dispatch<SetStateAction<IJob[]>>;
   setColumns: Dispatch<SetStateAction<TableColumn<IJob>[]>>;
 }) => {
-  const [pending, setPending] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [selectedRows, setSelectedRows] = useState<IJob[]>([]);
   const [toggledClearRows, setToggledClearRows] = useState<boolean>(false);
+  const [pending, setPending] = useState(true);
 
+  // loading state for table
   useEffect(() => {
     const timeout = setTimeout(async () => {
       await setPending(false);
@@ -30,54 +30,8 @@ const AdminJobTable = ({
     return () => clearTimeout(timeout);
   }, [data]);
 
-  useEffect(() => {
-    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
-    // reset toast
-    setError(null);
-  }, [error]);
-
-  useEffect(() => {
-    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(success) }} />);
-    // reset toast
-    setSuccess(null);
-  }, [success]);
-
-  const onClick = async () => {
-    const result = await Swal.fire({
-      title: 'Do you want to delete the selected items?',
-      showDenyButton: true,
-      confirmButtonText: 'Delete',
-      denyButtonText: `Don't delete`,
-    });
-    if (result.isConfirmed) {
-      try {
-        if (selectedRows.length <= 0) {
-          toast.warning('Please select a job to delete.');
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append('selectedRows', JSON.stringify(selectedRows));
-
-        const response = await fetch(`/api/admin-area`, { method: 'PUT', body: formData });
-        const body = await response.json();
-        if (response.ok) {
-          setSuccess(body.message);
-          const newRows = data.filter((el) => !selectedRows.includes(el));
-          setData(newRows);
-          setSelectedRows([]);
-          setToggledClearRows(!toggledClearRows);
-        }
-      } catch (e) {
-        console.log(e);
-        setError((e as { message: string }).message);
-      }
-    } else if (result.isDenied) {
-      Swal.fire("Item'(s) are not deleted", '', 'info');
-      setSelectedRows([]);
-      setToggledClearRows(!toggledClearRows);
-    }
-  };
+  // fire toasts if error or success is set
+  useToasts(success, setSuccess, error, setError);
 
   return (
     <div className="job__table">
@@ -89,7 +43,10 @@ const AdminJobTable = ({
           }
         }}
         actions={
-          <button className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'} onClick={onClick}>
+          <button
+            className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'}
+            onClick={() => onClickDelete(selectedRows, setSelectedRows, data, setData, toggledClearRows, setToggledClearRows, setSuccess, setError)}
+          >
             <FaTrash size={20} />
           </button>
         }

@@ -22,6 +22,9 @@ const jobSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  userId: {
+    type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  },
   datetime__start: {
     type: Date,
     required: true,

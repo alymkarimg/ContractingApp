@@ -1,7 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { Calendar as RBC, DateLocalizer, momentLocalizer, Views } from 'react-big-calendar';
 import { IJob } from '@/interfaces/job.interface';
+import { useToasts } from '../Helper';
+import { getJobs } from '@/pages/jobs/helper';
+import Swal from 'sweetalert2';
 
 const mLocalizer = momentLocalizer(moment);
 
@@ -10,7 +13,18 @@ const mLocalizer = momentLocalizer(moment);
  * example on the main 'About' page in Storybook
  */
 
-export default function Calendar({ localizer = mLocalizer, data, ...props }: { localizer?: typeof DateLocalizer; data: IJob[] }) {
+export default function Calendar({
+  unBookJob = false,
+  setData,
+  localizer = mLocalizer,
+  data,
+  ...props
+}: {
+  unBookJob?: boolean;
+  setData: Dispatch<SetStateAction<IJob[]>>;
+  localizer?: typeof DateLocalizer;
+  data: IJob[];
+}) {
   const { defaultDate } = useMemo(
     () => ({
       defaultDate: new Date(),
@@ -18,9 +32,62 @@ export default function Calendar({ localizer = mLocalizer, data, ...props }: { l
     []
   );
 
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [myEvents, setMyEvents] = useState<IJob[]>([]);
 
-  const handleSelectEvent = useCallback((event: IJob) => window.alert(`Book ${event.title}`), []);
+  // fire toasts if error or success is set
+  useToasts(success, setSuccess, error, setError);
+
+  const handleSelectEvent = useCallback(
+    async (event: IJob) => {
+      const result = unBookJob
+        ? await Swal.fire({
+            heightAuto: false,
+            title: `Do you want to remove your booking for: ${event.title} (${moment(event.datetime__start).format('DD-MM-YYYY HH:mm')} to ${moment(
+              event.datetime__end
+            ).format('DD-MM-YYYY HH:mm')})?`,
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+          })
+        : await Swal.fire({
+            heightAuto: false,
+            title: `Do you want to book: ${event.title} (${moment(event.datetime__start).format('DD-MM-YYYY HH:mm')} to ${moment(
+              event.datetime__end
+            ).format('DD-MM-YYYY HH:mm')})?`,
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+          });
+      if (result.isConfirmed) {
+        // remove user id from job
+        try {
+          const response = unBookJob ? await fetch(`../api/jobs/unbookJob?id=${event._id}`) : await fetch(`../api/jobs/bookJob?id=${event._id}`);
+
+          if (!response.ok) {
+            const errorText = await response.json();
+            throw new Error(errorText.message);
+          }
+
+          if (response.ok) {
+            // Handle response if necessary
+            const data = await response.json();
+            await getJobs(setData, undefined, unBookJob);
+            setSuccess(data.message);
+          }
+        } catch (e) {
+          console.log(e);
+          setError((e as { message: string }).message);
+        }
+      } else {
+        unBookJob
+          ? await Swal.fire({ title: 'Job was not removed', heightAuto: false, icon: 'info' })
+          : await Swal.fire({ title: 'Job was not removed', heightAuto: false, icon: 'info' });
+      }
+    },
+    [unBookJob, setData]
+  );
 
   useEffect(() => {
     if (data) {

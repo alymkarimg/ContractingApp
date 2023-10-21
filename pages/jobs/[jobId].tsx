@@ -3,24 +3,31 @@ import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IJob } from '@/interfaces/job.interface';
+import { getFormData } from './helper';
+import { useSession } from 'next-auth/react';
+import AccessDenied from '@/components/AccessDenied';
 
-export async function getServerSideProps({ params }: { params: { id: string } }) {
+export async function getServerSideProps({ params }: { params: { jobId: string } }) {
   return {
-    props: { id: params.id },
+    props: { jobId: params.jobId },
   };
 }
 
-export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
-  const [data, setData] = useState<IJob>();
+const EditJob = ({ apiKey, jobId }: { apiKey: string; jobId: string }) => {
+  // job data for a single job
+  const [data, setData] = useState<IJob | undefined>();
 
+  // get job data for a single job
   useEffect(() => {
-    const getFormData = async () => {
-      const response = await fetch(`/api?id=${id}`);
-      const job = await response.json();
-      setData(job.data);
-    };
-    getFormData();
-  }, [id]);
+    getFormData(setData, jobId);
+  }, [jobId]);
+
+  const { data: session } = useSession();
+
+  // if not employer, cannot edit a job
+  if (session?.user.role !== 'employer') {
+    return <AccessDenied />;
+  }
 
   return (
     <main>
@@ -47,4 +54,6 @@ export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
       </footer>
     </main>
   );
-}
+};
+
+export default EditJob;

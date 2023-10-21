@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Select, { ActionMeta, components } from 'react-select';
-import options from '../data/occupation.json';
+import options from '../../../data/occupation.json';
 import { InputProps, GroupBase } from 'react-select';
 
 type OnChangeSelect = (newValue: unknown, actionMeta: ActionMeta<unknown>) => void;
