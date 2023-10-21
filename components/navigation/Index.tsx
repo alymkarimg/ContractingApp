@@ -57,7 +57,7 @@ const Navigation = () => {
                 </p>
               </li>
             </ul>
-          )) || <Skeleton />}
+          )) || <Skeleton count={10} height={20} />}
         </div>
       </div>
     </div>
