@@ -5,9 +5,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 const uri = process.env.MONGODB_URI;
-const options = {
-  databaseName: process.env.VERCEL_ENV === 'production' ? `${process.env.DATABASE_NAME}_production` : `${process.env.DATABASE_NAME}`,
-};
+const options = {};
 
 let client;
 let clientPromise: Promise<MongoClient>;

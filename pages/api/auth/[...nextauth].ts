@@ -6,7 +6,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import clientPromise from '@/lib/mongoDbAdapter';
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(clientPromise, {
+    databaseName: process.env.VERCEL_ENV === 'production' ? `${process.env.DATABASE_NAME}_production` : `${process.env.DATABASE_NAME}`,
+  }),
   secret: process.env.NEXTAUTH_SECRET!,
   session: {
     strategy: 'jwt',
