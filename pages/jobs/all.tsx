@@ -18,7 +18,7 @@ const AllJobs = () => {
   const { status } = useSession();
 
   // if not an employee, cannot book a job
-  if (status === 'unauthenticated') {
+  if (status === 'loading' || status === 'unauthenticated') {
     return <AccessDenied />;
   }
 

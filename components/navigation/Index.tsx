@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Logo from './components/Logo';
 import LoginButton from './components/LoginButton';
 import { useSession } from 'next-auth/react';
-import { SpinnerDotted } from 'spinners-react';
 
 const Navigation = () => {
   const { data: session, status } = useSession();

@@ -5,10 +5,10 @@ import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/AccessDenied';
 
 const AddJob = ({ apiKey }: { apiKey: string }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // if not an employer, cannot add a job
-  if (session?.user.role !== 'employer') {
+  if (status === 'loading' || session?.user.role !== 'employer') {
     return <AccessDenied />;
   }
 

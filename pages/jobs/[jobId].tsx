@@ -22,10 +22,10 @@ const EditJob = ({ apiKey, jobId }: { apiKey: string; jobId: string }) => {
     getFormData(setData, jobId);
   }, [jobId]);
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // if not employer, cannot edit a job
-  if (session?.user.role !== 'employer') {
+  if (status === 'loading' || session?.user.role !== 'employer') {
     return <AccessDenied />;
   }
 

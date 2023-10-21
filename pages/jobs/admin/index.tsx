@@ -38,10 +38,10 @@ const AdminJobs = ({ success }: { success?: string }) => {
     }
   }, [router, success]);
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // if not an employer, cannot view all jobs
-  if (session?.user.role !== 'employer') {
+  if (status === 'loading' || session?.user.role !== 'employer') {
     return <AccessDenied />;
   }
 

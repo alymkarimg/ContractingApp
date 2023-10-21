@@ -19,7 +19,7 @@ const MyJobs = () => {
   }, [session]);
 
   // if no user, cannot view all jobs
-  if (status === 'unauthenticated') {
+  if (status === 'loading' || status === 'unauthenticated') {
     return <AccessDenied />;
   }
 
