@@ -8,12 +8,9 @@ import clientPromise from '@/lib/mongoDbAdapter';
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   secret: process.env.NEXTAUTH_SECRET!,
-  session:
-    process.env.VERCEL_ENV === 'preview'
-      ? {
-          strategy: 'jwt',
-        }
-      : undefined,
+  session: {
+    strategy: 'jwt',
+  },
   // Configure one or more authentication providers
   callbacks: {
     jwt: async ({ token, user }) => {
