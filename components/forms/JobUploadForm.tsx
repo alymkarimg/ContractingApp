@@ -75,7 +75,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
       formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());
       formData.append('occupation', occupationValue);
-      formData.append('description', description);
+      formData.append('description', description ?? '');
 
       const response = await fetch(`../api/jobs/${isAddMode ? '' : `?id=${data!._id}`}`, {
         method: isAddMode ? 'POST' : 'PUT',
