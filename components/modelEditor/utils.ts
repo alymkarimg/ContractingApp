@@ -1,10 +1,10 @@
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { ActionMeta, SingleValue } from 'react-select';
 
-export interface ModelSelect {
+export interface ModelSelectProps {
   options: Option[];
-  setState: React.Dispatch<React.SetStateAction<Option>>;
-  state: Option;
-  id: string;
+  onChange: (newValue: SingleValue<Option>, actionMeta: ActionMeta<Option>) => void;
+  value: Option;
 }
 
 export interface ModelResult {

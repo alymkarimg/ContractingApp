@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { DocumentDetailsSearchResults, DocumentResult, Documentdata, ModelDetailsSearchResults, ModelResult, Modeldata, isJson } from './utils';
+import { DocumentDetailsSearchResults, Documentdata, ModelDetailsSearchResults, ModelResult, Modeldata, isJson } from './utils';
 import DocumentDetails from './DocumentDetails';
 import ModelDetails from './ModelDetails';
 import DocumentEditor from './DocumentEditor';
-import { IconContext } from 'react-icons';
 
 const ModelEditor = () => {
   const [step, setStep] = useState<number>(1);

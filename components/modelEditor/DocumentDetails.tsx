@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { DocumentDetailsSearchResults, DocumentResult, ModelResult, Option, sortDocumentOptions } from './utils';
 import ModelPagination from './ModelPagination';
 import ModelSelect from './ModelSelect';
@@ -64,7 +64,7 @@ const DocumentDetails = (props: Props) => {
               <FaFilter width={10} height={10} />
               <p className="text-xs text-tertiary p-2 pr-3">Filter</p>
               <input className="p-1 pl-3 text-xs my-3 w-full bg-quaternary text-tertiary rounded-full" placeholder="Eg. latest updated..." />
-              <ModelSelect id={'dd_modelSort'} state={sortState} setState={setSortState} options={sortDocumentOptions} />
+              <ModelSelect value={sortState} onChange={(e) => setSortState(e as SetStateAction<Option>)} options={sortDocumentOptions} />
               <div className="flex flex-col"></div>
             </td>
           </tr>
