@@ -34,12 +34,7 @@ const ModelDetails = (props: Props) => {
     <div className="rounded-xl p-5 bg-secondary flex flex-col">
       <div className="flex flex-row relative">
         <Image style={{ top: '32px' }} className="absolute left-3" width={20} height={20} src="/Search.svg" alt="Follow us on Twitter" />
-        <input
-          defaultValue={query}
-          className="p-3 pl-12 pr-12 my-5 w-full bg-primary text-tertiary rounded-full"
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Choose a Model..."
-        />
+        <input className="p-3 pl-12 pr-12 my-5 w-full bg-primary text-tertiary rounded-full" placeholder="Choose a Model..." />
         <Image style={{ top: '35px' }} width={15} height={15} src="/filter.svg" alt="Vercel Logo" className="absolute right-12" />
         <div className="ml-3 flex justify-center text-tertiary">
           {!_.isEmpty(selectedModel) && (
