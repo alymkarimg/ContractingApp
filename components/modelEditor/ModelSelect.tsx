@@ -22,9 +22,9 @@ const Dropdown = (props: ModelSelect) => {
 
   return (
     <div id={id} className="z-10 rounded-lg bg-tertiary">
-      <ul onClick={(e) => onClick(e)} className="list-none py-2 text-secondary cursor-pointer bg-secondary text-tertiary text-sm">
+      <ul onClick={(e) => onClick(e)} className="list-none py-2 text-secondary bg-secondary text-tertiary text-sm">
         {formattedOptions.map((q, i) => (
-          <li value={i} className={`${q.value === state.value ? 'bg-quinary' : ''} block px-4 py-2`} key={`${q.value}_${id}`}>
+          <li value={i} className={`hover:cursor-pointer ${q.value === state.value ? 'bg-quinary' : ''} block px-4 py-2`} key={`${q.value}_${id}`}>
             {q.label}
           </li>
         ))}
