@@ -1,30 +1,31 @@
 import { useState } from 'react';
-import { ModelDropdown, Option } from './utils';
-import Image from 'next/image';
+import { ModelSelect, Option } from './utils';
+import _ from 'lodash';
 
 function titleCase(string: string) {
   return string[0].toUpperCase() + string.slice(1).toLowerCase();
 }
 
-const Dropdown = (props: ModelDropdown) => {
-  const { setState, options, id } = props;
+const Dropdown = (props: ModelSelect) => {
+  const { state, setState, options, id } = props;
 
   const formattedOptions = options.map((q) => {
     return { label: titleCase(q.label), value: q.value.toLowerCase() };
   });
 
-  const onChange = (option: unknown) => {
-    setState(option as Option);
+  // TODO: fix this TS error
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onClick = (e: any) => {
+    const selectedOption = formattedOptions[e.target.value];
+    setState({ value: selectedOption.value, label: selectedOption.label } as Option);
   };
 
   return (
     <div id={id} className="z-10 rounded-lg bg-tertiary">
-      <ul onChange={(e) => onChange(e)} className="list-none py-2 text-secondary">
-        {formattedOptions.map((q) => (
-          <li value={q.value} key={`${q.value}_${id}`}>
-            <a href="#" className="block px-4 py-2">
-              {q.label}
-            </a>
+      <ul onClick={(e) => onClick(e)} className="list-none py-2 text-secondary cursor-pointer bg-secondary text-tertiary text-sm">
+        {formattedOptions.map((q, i) => (
+          <li value={i} className={`${q.value === state.value ? 'bg-quinary' : ''} block px-4 py-2`} key={`${q.value}_${id}`}>
+            {q.label}
           </li>
         ))}
       </ul>
@@ -32,7 +33,7 @@ const Dropdown = (props: ModelDropdown) => {
   );
 };
 
-const ModelDropdown = (props: ModelDropdown) => {
+const ModelSelect = (props: ModelSelect) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleMouseEnter = () => {
@@ -55,4 +56,4 @@ const ModelDropdown = (props: ModelDropdown) => {
   );
 };
 
-export default ModelDropdown;
+export default ModelSelect;

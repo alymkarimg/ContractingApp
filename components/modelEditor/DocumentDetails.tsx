@@ -1,9 +1,8 @@
 import React, { Dispatch, useState } from 'react';
 import { DocumentDetailsSearchResults, DocumentResult, ModelResult, Option, sortDocumentOptions } from './utils';
 import ModelPagination from './ModelPagination';
-import ModalSelect from './ModelSelect';
+import ModelSelect from './ModelSelect';
 import { FaArrowRight, FaArrowLeft, FaDatabase, FaFilter, FaSearch } from 'react-icons/fa';
-import Image from 'next/image';
 import _ from 'lodash';
 
 interface Props {
@@ -22,7 +21,7 @@ const DocumentDetails = (props: Props) => {
   const { nextStep, prevStep, setQuery, query, documentDetailsSearchResults, selectedDocument, setSelectedDocument, selectedModel } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-  const [, setSortState] = useState<Option>({ label: '', value: '' });
+  const [sortState, setSortState] = useState<Option>({ label: '', value: '' });
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
@@ -69,7 +68,7 @@ const DocumentDetails = (props: Props) => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Eg. latest updated..."
               />
-              <ModalSelect id={'dd_modelSort'} setState={setSortState} options={sortDocumentOptions} />
+              <ModelSelect id={'dd_modelSort'} state={sortState} setState={setSortState} options={sortDocumentOptions} />
               <div className="flex flex-col"></div>
             </td>
           </tr>

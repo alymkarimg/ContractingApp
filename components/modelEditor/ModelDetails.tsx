@@ -1,9 +1,8 @@
 import React, { Dispatch, useState } from 'react';
 import { ModelDetailsSearchResults, ModelResult, Option, sortModelOptions } from './utils';
 import ModelPagination from './ModelPagination';
-import ModalSelect from './ModelSelect';
-import { FaArrowRight, FaArrowLeft, FaDatabase, FaFilter, FaSearch } from 'react-icons/fa';
-import Image from 'next/image';
+import ModelSelect from './ModelSelect';
+import { FaArrowRight, FaDatabase, FaFilter, FaSearch } from 'react-icons/fa';
 import _ from 'lodash';
 
 interface Props {
@@ -20,7 +19,7 @@ const ModelDetails = (props: Props) => {
   const { nextStep, setQuery, query, modelDetailsSearchResults, selectedModel, setSelectedModel } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-  const [, setSortState] = useState<Option>({ label: '', value: '' });
+  const [sortState, setSortState] = useState<Option>({ label: '', value: '' });
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
@@ -55,7 +54,7 @@ const ModelDetails = (props: Props) => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Eg. latest updated..."
               />
-              <ModalSelect id={'dd_modelSort'} setState={setSortState} options={sortModelOptions} />
+              <ModelSelect id={'dd_modelSort'} state={sortState} setState={setSortState} options={sortModelOptions} />
               <div className="flex flex-col"></div>
             </td>
           </tr>

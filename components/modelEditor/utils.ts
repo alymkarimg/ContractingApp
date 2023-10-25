@@ -1,8 +1,9 @@
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
-export interface ModelDropdown {
+export interface ModelSelect {
   options: Option[];
   setState: React.Dispatch<React.SetStateAction<Option>>;
+  state: Option;
   id: string;
 }
 
@@ -179,8 +180,12 @@ export const Documentdata = [
 
 export const sortModelOptions = [
   {
-    label: 'Title',
-    value: 'title',
+    label: 'Title (Ascending)',
+    value: 'title_asc',
+  },
+  {
+    label: 'Title (Descending)',
+    value: 'title_descending',
   },
   {
     label: 'Time (Ascending)',
@@ -194,8 +199,12 @@ export const sortModelOptions = [
 
 export const sortDocumentOptions = [
   {
-    label: 'Title',
-    value: 'title',
+    label: 'Title (Ascending)',
+    value: 'title_asc',
+  },
+  {
+    label: 'Title (Descending)',
+    value: 'title_desc',
   },
   {
     label: 'Time (Ascending)',
