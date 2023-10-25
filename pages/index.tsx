@@ -1,10 +1,11 @@
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
+import ModelEditor from '@/components/modelEditor/ModelEditor';
 
 const Index = () => {
   return (
     <>
-      <div className="container">
+      <div className="flex w-full justify-center">
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -17,7 +18,10 @@ const Index = () => {
           pauseOnHover
           theme="dark"
         />
-        <h2>Home</h2>
+        <div className="max-w-sm container">
+          <h2>Home</h2>
+          <ModelEditor />
+        </div>
       </div>
       <footer>
         <p>
