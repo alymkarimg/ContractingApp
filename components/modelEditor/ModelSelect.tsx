@@ -40,7 +40,7 @@ const ModelDropdown = (props: ModelDropdown) => {
   };
 
   const handleMouseLeave = () => {
-    // setDropdownVisible(false);
+    setDropdownVisible(false);
   };
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="p-2 pr-0 flex place-items-center">
