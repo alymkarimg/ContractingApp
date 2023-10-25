@@ -33,7 +33,12 @@ const ModelDetails = (props: Props) => {
     <div className="rounded-xl p-5 bg-secondary flex flex-col">
       <div className="flex flex-row relative text-tertiary">
         <FaSearch style={{ top: '32px' }} className="absolute left-3" width={20} height={20} />
-        <input className="p-3 pl-12 pr-12 my-5 w-full bg-primary text-tertiary rounded-full" placeholder="Choose a Model..." />
+        <input
+          defaultValue={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="p-3 pl-12 pr-12 my-5 w-full bg-primary text-tertiary rounded-full"
+          placeholder="Choose a Model..."
+        />
         <FaFilter style={{ top: '35px' }} width={15} height={15} className="absolute right-8" />
         <div className="ml-3 flex justify-center text-tertiary">
           {!_.isEmpty(selectedModel) && (
@@ -49,11 +54,7 @@ const ModelDetails = (props: Props) => {
             <td className="px-3 flex place-items-center bg-primary text-septenary">
               <FaFilter width={10} height={10} />
               <p className="text-xs text-tertiary p-2 pr-3">Filter</p>
-              <input
-                className="p-1 pl-3 text-xs my-3 w-full bg-quaternary text-tertiary rounded-full"
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Eg. latest updated..."
-              />
+              <input className="p-1 pl-3 text-xs my-3 w-full bg-quaternary text-tertiary rounded-full" placeholder="Eg. latest updated..." />
               <ModelSelect id={'dd_modelSort'} state={sortState} setState={setSortState} options={sortModelOptions} />
               <div className="flex flex-col"></div>
             </td>

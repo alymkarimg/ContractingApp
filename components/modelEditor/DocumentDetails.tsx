@@ -63,11 +63,7 @@ const DocumentDetails = (props: Props) => {
             <td className="px-3 flex place-items-center bg-primary text-tertiary">
               <FaFilter width={10} height={10} />
               <p className="text-xs text-tertiary p-2 pr-3">Filter</p>
-              <input
-                className="p-1 pl-3 text-xs my-3 w-full bg-quaternary text-tertiary rounded-full"
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Eg. latest updated..."
-              />
+              <input className="p-1 pl-3 text-xs my-3 w-full bg-quaternary text-tertiary rounded-full" placeholder="Eg. latest updated..." />
               <ModelSelect id={'dd_modelSort'} state={sortState} setState={setSortState} options={sortDocumentOptions} />
               <div className="flex flex-col"></div>
             </td>
