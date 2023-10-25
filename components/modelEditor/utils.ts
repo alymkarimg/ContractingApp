@@ -101,13 +101,6 @@ export const isJson = (str: string) => {
   return true;
 };
 
-export const prettyPrint = (value: string) => {
-  // check if the jsonstring is valid, if it is, parse thr string, make it pretty then stringify it
-  // if it is not, return the original invalid string
-  const obj = isJson(value) ? JSON.stringify(JSON.parse(value), undefined, 4) : value;
-  return obj;
-};
-
 export const Modeldata = [
   {
     title: 'AEntityX',

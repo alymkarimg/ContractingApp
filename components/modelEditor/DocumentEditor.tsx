@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { FaArrowLeft } from 'react-icons/fa';
-import { DocumentResult, prettyPrint } from './utils';
+import { DocumentResult } from './utils';
 import { Dispatch, useRef, useState } from 'react';
 
 interface Props {
@@ -11,12 +11,12 @@ interface Props {
 }
 
 const DocumentEditor = (props: Props) => {
-  const { prevStep, selectedDocument, setSelectedDocument, saveDocument } = props;
+  const { prevStep, selectedDocument, saveDocument } = props;
   const intialDocument = useRef(selectedDocument);
-  const [selectedDocumentString, setSelectedDocumentString] = useState(JSON.stringify(selectedDocument));
+  const [selectedDocumentString, setSelectedDocumentString] = useState(JSON.stringify(selectedDocument, undefined, 4));
 
   const resetDocument = () => {
-    setSelectedDocumentString(JSON.stringify(intialDocument.current));
+    setSelectedDocumentString(JSON.stringify(intialDocument.current, undefined, 4));
   };
 
   const onChange = (e: { target: { value: string } }) => {
@@ -47,7 +47,9 @@ const DocumentEditor = (props: Props) => {
           </div>
         </div>
         {/* JSON editor */}
-        <textarea onChange={onChange} rows={20} className="text-septenary bg-primary" value={prettyPrint(selectedDocumentString)}></textarea>
+        <pre>
+          <textarea onChange={onChange} rows={20} className="text-septenary p-3 bg-primary w-full" value={selectedDocumentString} />
+        </pre>
       </div>
     </div>
   );
