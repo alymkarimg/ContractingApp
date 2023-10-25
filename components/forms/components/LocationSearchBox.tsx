@@ -24,7 +24,7 @@ export const LocationSearchBox = (props: {
     const updateSearch = async () => {
       const getNearbyPlaces = async (query: string) => {
         try {
-          const response = await fetch(`api/location-autocomplete?query=${query}`);
+          const response = await fetch(`../api/google/location-autocomplete?query=${query}`);
           return await response.json();
         } catch (e) {
           console.log(e);

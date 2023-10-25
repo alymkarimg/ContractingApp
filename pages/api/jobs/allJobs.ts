@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '../../lib/dbConnect';
-import Job from '../../models/Job';
+import dbConnect from '../../../lib/dbConnect';
+import Job from '../../../models/Job';
 import { parseForm } from '@/helper';
 
 export const config = {
@@ -15,15 +15,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await dbConnect();
 
   switch (method) {
+    // get all jobs that are not booked
     case 'GET':
       try {
-        const jobs = await Job.find({});
+        const jobs = await Job.find({ userId: undefined });
         res.status(200).json({ data: jobs });
       } catch (e) {
         res.status(400).json({});
       }
 
       break;
+    // delete selected jobs
     case 'PUT':
       try {
         const object = await parseForm(req);
@@ -31,10 +33,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const selectedRows = JSON.parse(object.selectedRows);
 
         await Job.deleteMany({ _id: selectedRows.map((q: { _id: string }) => q._id) });
-        res.status(200).json({ message: 'Job was successfully deleted.' });
+        res.status(200).json({ message: `Job${selectedRows.length > 1 ? "'s" : ''} were successfully deleted.` });
       } catch (e) {
         res.status(400).json({
-          message: 'Job was not successfully deleted.',
+          message: `Job'(s) were not successfully deleted.`,
         });
       }
       break;

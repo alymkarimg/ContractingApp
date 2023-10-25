@@ -1,27 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IJob } from '@/interfaces/job.interface';
-import Calender from '@/components/calender';
+import Calender from '@/components/calendar/Index';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
+import { getJobs } from '@/components/Helper';
+import AccessDenied from '@/components/AccessDenied';
+import { useSession } from 'next-auth/react';
 
-const BookJobs = () => {
+const AllJobs = () => {
+  // set job data
   const [data, setData] = useState<IJob[]>([]);
-  const getJobs = useCallback(async () => {
-    try {
-      const response = await fetch(`api/admin-area`);
-      const jobs = await response.json();
-
-      if (response.ok) {
-        setData(jobs.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
 
   useEffect(() => {
-    getJobs();
-  }, [getJobs]);
+    getJobs(setData);
+  }, []);
+
+  const { status } = useSession();
+
+  // if not an employee, cannot book a job
+  if (status === 'loading' || status === 'unauthenticated') {
+    return <AccessDenied />;
+  }
 
   return (
     <>
@@ -39,7 +38,7 @@ const BookJobs = () => {
           theme="dark"
         />
         <h2>Book Jobs</h2>
-        <Calender data={data} />;
+        <Calender setData={setData} data={data} />;
       </div>
       <footer>
         <p>
@@ -50,4 +49,4 @@ const BookJobs = () => {
   );
 };
 
-export default BookJobs;
+export default AllJobs;

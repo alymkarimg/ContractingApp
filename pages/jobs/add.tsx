@@ -1,26 +1,16 @@
 import JobUploadForm from '@/components/forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { IJob } from '@/interfaces/job.interface';
+import { useSession } from 'next-auth/react';
+import AccessDenied from '@/components/AccessDenied';
 
-export async function getServerSideProps({ params }: { params: { id: string } }) {
-  return {
-    props: { id: params.id },
-  };
-}
+const AddJob = ({ apiKey }: { apiKey: string }) => {
+  const { data: session, status } = useSession();
 
-export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
-  const [data, setData] = useState<IJob>();
-
-  useEffect(() => {
-    const getFormData = async () => {
-      const response = await fetch(`/api?id=${id}`);
-      const job = await response.json();
-      setData(job.data);
-    };
-    getFormData();
-  }, [id]);
+  // if not an employer, cannot add a job
+  if (status === 'loading' || session?.user.role !== 'employer') {
+    return <AccessDenied />;
+  }
 
   return (
     <main>
@@ -37,8 +27,8 @@ export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
           pauseOnHover
           theme="dark"
         />
-        <h2>Edit Job</h2>
-        <JobUploadForm isAddMode={false} apiKey={apiKey} data={data} />
+        <h2>Job Upload</h2>
+        <JobUploadForm isAddMode={true} apiKey={apiKey} />
       </div>
       <footer>
         <p>
@@ -47,4 +37,6 @@ export default function Edit({ apiKey, id }: { apiKey: string; id: string }) {
       </footer>
     </main>
   );
-}
+};
+
+export default AddJob;

@@ -1,18 +1,20 @@
 import React, { useState, FormEvent, useEffect, Dispatch } from 'react';
-import { DateRange } from '../DateRange';
-import { SingleThumbRangeSlider } from '../RangeSlider';
-import { LocationSearchBox } from '../LocationSearchBox';
-import Select from '../Select';
-import { toast } from 'react-toastify';
+import { DateRange } from './components/DateRange';
+import { SingleThumbRangeSlider } from './components/RangeSlider';
+import { LocationSearchBox } from './components/LocationSearchBox';
+import Select from './components/Select';
 import { jobSchema } from '@/validations/jobSchema';
 import { formatJob, formatZodErrors } from '@/validations/helper';
-import DOMPurify from 'dompurify';
 import { IJob } from '@/interfaces/job.interface';
 import _ from 'lodash';
 import { useRouter } from 'next/navigation';
+import { useToasts } from '../Helper';
+import { filterTime } from './FormHelper';
 
 const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean }) => {
   const { apiKey, data, isAddMode } = props;
+
+  // component state
   const [isLoading, setIsLoading] = useState<boolean>(!isAddMode);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -38,7 +40,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
     // query place details
     let address, lat, lng;
     try {
-      const response = await fetch(`api/place-details?query=${location}`);
+      const response = await fetch(`../api/google/place-details?query=${location}`);
       const placeDetailsJson = await response.json();
       address = placeDetailsJson.formatted_address;
       lat = placeDetailsJson.geometry.location.lat;
@@ -73,10 +75,10 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
       formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());
       formData.append('occupation', occupationValue);
-      formData.append('description', description);
+      formData.append('description', description ?? '');
 
-      const response = await fetch(`/api${isAddMode ? '' : `?id=${data!._id}`}`, {
-        method: isAddMode ? 'Post' : 'PUT',
+      const response = await fetch(`../api/jobs/${isAddMode ? '' : `?id=${data!._id}`}`, {
+        method: isAddMode ? 'POST' : 'PUT',
         body: formData,
       });
 
@@ -102,7 +104,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
         setOccupationValue('');
         setDescription('');
       } else {
-        router.push(`/admin-area?success=${true}`);
+        router.push(`/jobs/all?success=${true}`);
       }
     } catch (e: unknown) {
       // Capture the error message to display to the user
@@ -124,31 +126,14 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
       setPay([0, data.pay / 100]);
       setOccupation({ value: data.occupation, label: _.capitalize(data.occupation) });
       setOccupationValue(_.capitalize(data.occupation));
-      setDescription(data.description);
+      setDescription(data.description ?? '');
       setIsLoading(false);
     }
   }, [data]);
 
-  // toast stuff
-  useEffect(() => {
-    if (error) toast.error(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }} />);
-    // reset toast
-    setError(null);
-  }, [error]);
+  // fire toasts if error or success is set
+  useToasts(success, setSuccess, error, setError);
 
-  useEffect(() => {
-    if (success) toast.success(<ul dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(success) }} />);
-    // reset toast
-    setSuccess(null);
-  }, [success]);
-
-  // form stuff
-  const filterTime = (time: string | number | Date) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(time);
-
-    return currentDate.getTime() < selectedDate.getTime();
-  };
   return (
     <>
       {(!_.isEmpty(data) || isAddMode) && (

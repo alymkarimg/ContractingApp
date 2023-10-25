@@ -1,10 +1,9 @@
-import JobUploadForm from '@/components/forms/JobUploadForm';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
-export default function Home({ apiKey }: { apiKey: string }) {
+const Index = () => {
   return (
-    <main>
+    <>
       <div className="container">
         <ToastContainer
           position="top-right"
@@ -18,14 +17,15 @@ export default function Home({ apiKey }: { apiKey: string }) {
           pauseOnHover
           theme="dark"
         />
-        <h2>Job Upload</h2>
-        <JobUploadForm isAddMode={true} apiKey={apiKey} />
+        <h2>Home</h2>
       </div>
       <footer>
         <p>
           Powered by <Image width={90} height={90} src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </p>
       </footer>
-    </main>
+    </>
   );
-}
+};
+
+export default Index;

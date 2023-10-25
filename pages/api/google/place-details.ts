@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '../../lib/dbConnect';
+import dbConnect from '../../../lib/dbConnect';
 
 export const config = {
   api: {
@@ -17,11 +17,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // TODO:  change cors policy to be more restrictive account for preview, local and prod enviroments
       try {
         const query = req.query['query'] as string;
-        const baseUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?`;
+        const baseUrl = `https://maps.googleapis.com/maps/api/place/details/json?`;
 
-        const queryString = `input=${encodeURIComponent(query)}&components=country:gb&key=${process.env.GOOGLE_API_KEY}&limit=${encodeURIComponent(
-          10
-        )}`;
+        const queryString = `place_id=${encodeURIComponent(query)}&fields=formatted_address,name,geometry&key=${process.env.GOOGLE_API_KEY}`;
 
         const headers = new Headers();
 
@@ -33,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const googleApiJson = await response.json();
 
-        return res.status(200).json(googleApiJson);
+        return res.status(200).json(googleApiJson.result);
       } catch (e) {
         console.log(e);
       }
