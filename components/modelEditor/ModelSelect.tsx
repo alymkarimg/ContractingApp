@@ -40,13 +40,13 @@ const ModelDropdown = (props: ModelDropdown) => {
   };
 
   const handleMouseLeave = () => {
-    setDropdownVisible(false);
+    // setDropdownVisible(false);
   };
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="p-2 pr-0 flex place-items-center">
       <button className="bg-primary p-1 text-tertiary text-xs px-3 h-6">Sort</button>
       <div className="absolute flex flex-col align-center justify-center">
-        <div className="relative w-full top-20 right-24">
+        <div className="relative w-full top-25 right-17 xs:top-18 xs:right-20 sm:top-20 sm:right-24">
           {/* <DropdownMenu /> */}
           {isDropdownVisible && <Dropdown {...props} />}
         </div>
