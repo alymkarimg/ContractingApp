@@ -16,7 +16,17 @@ const ModelEditor = () => {
   // save document
   const saveDocument = (documentString: string) => {
     if (isJson(documentString)) {
-      const document = JSON.parse(documentString);
+      const document = JSON.parse(
+        documentString
+          .replace(/\\n/g, '\\n')
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, '\\&')
+          .replace(/\\r/g, '\\r')
+          .replace(/\\t/g, '\\t')
+          .replace(/\\b/g, '\\b')
+          .replace(/\\f/g, '\\f')
+      );
       // save to db
       alert(`${document.title} has been saved`);
       setStep(1);
