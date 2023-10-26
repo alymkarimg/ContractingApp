@@ -7,26 +7,10 @@ const ModelSelect = (props: ModelSelectProps) => {
   return (
     <Select
       styles={{
-        control: (provided) => ({
-          ...provided,
-          height: '42px',
-          border: 'none',
-          boxShadow: 'none',
-        }),
         valueContainer: (provided) => ({
           ...provided,
-          display: 'none',
-        }),
-
-        input: (provided) => ({
-          ...provided,
-        }),
-        indicatorSeparator: (provided) => ({
-          ...provided,
-          display: 'none',
-        }),
-        indicatorsContainer: (provided) => ({
-          ...provided,
+          width: '0',
+          height: '0',
         }),
         option: () => ({
           ':hover': {
@@ -45,9 +29,10 @@ const ModelSelect = (props: ModelSelectProps) => {
         container: () => 'ml-2 bg-primary',
         control: () => 'bg-primary',
         menuList: () => 'bg-secondary w-36',
-        option: (state) => (state.isSelected ? 'bg-quinary p-3' : 'bg-secondary p-3'),
+        option: ({ isSelected }) => (isSelected ? 'bg-quinary p-3' : 'bg-secondary p-3'),
         indicatorsContainer: () => 'bg-primary',
       }}
+      unstyled
       isSearchable={false}
       isRtl={true}
       value={value}
