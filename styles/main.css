@@ -1,5 +1,5 @@
 .container {
-  width: calc(100% - 1rem);
+  width: calc(100% - 3rem);
   position: relative;
   min-height: 100vh;
   padding: 0.5rem;
@@ -242,4 +242,10 @@ textarea {
   .container .form__container {
     width: 19rem;
   }
+}
+
+/* Swal */
+
+.swal__list {
+  padding: 0;
 }

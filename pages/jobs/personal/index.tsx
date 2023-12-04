@@ -6,12 +6,23 @@ import Image from 'next/image';
 import { getJobs } from '@/components/Helper';
 import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/AccessDenied';
+import JobTable from '@/components/tables/JobTable';
+import { TableColumn } from 'react-data-table-component';
+import { TableHeaderColumns } from '@/components/tables/TableHelper';
 
 const MyJobs = () => {
   const { data: session, status } = useSession();
 
   // Job data for a user
   const [data, setData] = useState<IJob[]>([]);
+
+  // columns for the table
+  const [columns, setColumns] = useState<TableColumn<IJob>[]>([]);
+
+  // get jobs on pageload
+  useEffect(() => {
+    setColumns(TableHeaderColumns());
+  }, []);
 
   // get job data for a user
   useEffect(() => {
@@ -39,7 +50,9 @@ const MyJobs = () => {
           theme="dark"
         />
         <h2>Book Jobs</h2>
-        <Calender unBookJob setData={setData} data={data} />;
+        <Calender unBookJob setData={setData} data={data} />
+        <h2>Job Details</h2>
+        <JobTable isAdmin={false} data={data} setData={setData} columns={columns} />
       </div>
       <footer>
         <p>

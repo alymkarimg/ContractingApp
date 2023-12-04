@@ -44,18 +44,28 @@ export default function Calendar({
       const result = unBookJob
         ? await Swal.fire({
             heightAuto: false,
-            title: `Do you want to remove your booking for: ${event.title} (${moment(event.datetime__start).format('DD-MM-YYYY HH:mm')} to ${moment(
-              event.datetime__end
-            ).format('DD-MM-YYYY HH:mm')})?`,
+            title: `Do you want to remove your booking for: '${event.title}'`,
+            html: `
+            <ul class='swal__list'>
+              <li><b>Start</b>: ${moment(event.datetime__start).format('DD-MM-YYYY HH:mm A')}</li>
+              <li><b>End</b>: ${moment(event.datetime__end).format('DD-MM-YYYY HH:mm A')}</li>
+              <li><b>Address</b>: ${event.address}</li>
+            </ul>
+          `,
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
           })
         : await Swal.fire({
             heightAuto: false,
-            title: `Do you want to book: ${event.title} (${moment(event.datetime__start).format('DD-MM-YYYY HH:mm')} to ${moment(
-              event.datetime__end
-            ).format('DD-MM-YYYY HH:mm')})?`,
+            title: `Do you want to book: '${event.title}'`,
+            html: `
+            <ul class='swal__list'>
+              <li><b>Start</b>: ${moment(event.datetime__start).format('DD-MM-YYYY HH:mm A')}</li>
+              <li><b>End</b>: ${moment(event.datetime__end).format('DD-MM-YYYY HH:mm A')}</li>
+              <li><b>Address</b>: ${event.address}</li>
+            </ul>
+          `,
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
@@ -82,8 +92,8 @@ export default function Calendar({
         }
       } else {
         unBookJob
-          ? await Swal.fire({ title: 'Job was not removed', heightAuto: false, icon: 'info' })
-          : await Swal.fire({ title: 'Job was not removed', heightAuto: false, icon: 'info' });
+          ? await Swal.fire({ title: 'Job was not cancelled', heightAuto: false, icon: 'info' })
+          : await Swal.fire({ title: 'Job was not booked', heightAuto: false, icon: 'info' });
       }
     },
     [unBookJob, setData]

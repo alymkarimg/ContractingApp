@@ -1,4 +1,4 @@
-import AdminJobTable from '@/components/tables/AdminJobTable';
+import JobTable from '@/components/tables/JobTable';
 import { ToastContainer, toast } from 'react-toastify';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -61,7 +61,7 @@ const AdminJobs = ({ success }: { success?: string }) => {
           theme="dark"
         />
         <h2>View/Edit/Delete Jobs</h2>
-        <AdminJobTable data={data} columns={columns} setColumns={setColumns} setData={setData} />
+        <JobTable isAdmin data={data} columns={columns} setData={setData} />
       </div>
       <footer>
         <p>
