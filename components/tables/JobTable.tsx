@@ -10,12 +10,12 @@ const JobTable = ({
   data,
   columns,
   setData,
-  isAdmin
+  isAdmin,
 }: {
   data: IJob[];
   columns: TableColumn<IJob>[];
   setData: Dispatch<SetStateAction<IJob[]>>;
-  isAdmin: boolean
+  isAdmin: boolean;
 }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -44,13 +44,14 @@ const JobTable = ({
           }
         }}
         actions={
-          isAdmin ?
-          <button
-            className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'}
-            onClick={() => onClickDelete(selectedRows, setSelectedRows, data, setData, toggledClearRows, setToggledClearRows, setSuccess, setError)}
-          >
-            <FaTrash size={20} />
-          </button> : undefined
+          isAdmin ? (
+            <button
+              className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'}
+              onClick={() => onClickDelete(selectedRows, setSelectedRows, data, setData, toggledClearRows, setToggledClearRows, setSuccess, setError)}
+            >
+              <FaTrash size={20} />
+            </button>
+          ) : undefined
         }
         responsive
         className="job__table"

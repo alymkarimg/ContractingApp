@@ -21,7 +21,7 @@ const MyJobs = () => {
 
   // get jobs on pageload
   useEffect(() => {
-    setColumns(TableHeaderColumns())
+    setColumns(TableHeaderColumns());
   }, []);
 
   // get job data for a user
@@ -52,7 +52,7 @@ const MyJobs = () => {
         <h2>Book Jobs</h2>
         <Calender unBookJob setData={setData} data={data} />
         <h2>Job Details</h2>
-        <JobTable isAdmin={false} data={data} setData={setData} columns={columns}/>
+        <JobTable isAdmin={false} data={data} setData={setData} columns={columns} />
       </div>
       <footer>
         <p>

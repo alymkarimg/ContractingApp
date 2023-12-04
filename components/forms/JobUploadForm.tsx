@@ -43,7 +43,7 @@ const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
       const response = await fetch(`../api/google/place-details?query=${location}`);
       const placeDetailsJson = await response.json();
       address = placeDetailsJson.formatted_address;
-     } catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
@@ -97,7 +97,7 @@ const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
         setOccupation({ value: '', label: '' });
         setOccupationValue('');
         setDescription('');
-      } else if(isAddMode) {
+      } else if (isAddMode) {
         router.push(`/jobs/all?success=${true}`);
       } else {
         router.push(`/jobs/admin`);

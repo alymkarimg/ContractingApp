@@ -13,7 +13,7 @@ export async function getServerSideProps({ params }: { params: { jobId: string }
   };
 }
 
-const EditJob = ({  jobId }: { jobId: string }) => {
+const EditJob = ({ jobId }: { jobId: string }) => {
   // job data for a single job
   const [data, setData] = useState<IJob | undefined>();
 
