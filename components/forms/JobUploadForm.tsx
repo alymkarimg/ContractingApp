@@ -11,8 +11,8 @@ import { useRouter } from 'next/navigation';
 import { useToasts } from '../Helper';
 import { filterTime } from './FormHelper';
 
-const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean }) => {
-  const { apiKey, data, isAddMode } = props;
+const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
+  const { data, isAddMode } = props;
 
   // component state
   const [isLoading, setIsLoading] = useState<boolean>(!isAddMode);
@@ -103,8 +103,10 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
         setOccupation({ value: '', label: '' });
         setOccupationValue('');
         setDescription('');
-      } else {
+      } else if(isAddMode) {
         router.push(`/jobs/all?success=${true}`);
+      } else {
+        router.push(`/jobs/admin`);
       }
     } catch (e: unknown) {
       // Capture the error message to display to the user
@@ -144,7 +146,7 @@ const JobUploadForm = (props: { apiKey: string; data?: IJob; isAddMode: boolean 
           </div>
           <div className="location block">
             <label htmlFor="frm-location">Location*:</label>
-            <LocationSearchBox setLocation={setLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} apiKey={apiKey} />
+            <LocationSearchBox setLocation={setLocation} locationQuery={locationQuery} setLocationQuery={setLocationQuery} />
           </div>
           <div className="datetime block">
             <label>Start of job*:</label>

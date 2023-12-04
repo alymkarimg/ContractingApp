@@ -11,7 +11,6 @@ interface SearchResults {
 }
 
 export const LocationSearchBox = (props: {
-  apiKey: string;
   setLocation: React.Dispatch<React.SetStateAction<string>>;
   locationQuery: string;
   setLocationQuery: React.Dispatch<React.SetStateAction<string>>;

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/AccessDenied';
 
-const AddJob = ({ apiKey }: { apiKey: string }) => {
+const AddJob = () => {
   const { data: session, status } = useSession();
 
   // if not an employer, cannot add a job
@@ -28,7 +28,7 @@ const AddJob = ({ apiKey }: { apiKey: string }) => {
           theme="dark"
         />
         <h2>Job Upload</h2>
-        <JobUploadForm isAddMode={true} apiKey={apiKey} />
+        <JobUploadForm isAddMode={true} />
       </div>
       <footer>
         <p>

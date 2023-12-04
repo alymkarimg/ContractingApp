@@ -61,7 +61,7 @@ const onClick = async (id: string, router: NextRouter) => {
     heightAuto: false,
     title: 'Do you want to edit the selected item?',
     showDenyButton: true,
-    confirmButtonText: 'Edit',
+    confirmButtonText: 'Yes',
   });
 
   if (result.isConfirmed) {

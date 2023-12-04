@@ -13,7 +13,7 @@ export async function getServerSideProps({ params }: { params: { jobId: string }
   };
 }
 
-const EditJob = ({ apiKey, jobId }: { apiKey: string; jobId: string }) => {
+const EditJob = ({  jobId }: { jobId: string }) => {
   // job data for a single job
   const [data, setData] = useState<IJob | undefined>();
 
@@ -45,7 +45,7 @@ const EditJob = ({ apiKey, jobId }: { apiKey: string; jobId: string }) => {
           theme="dark"
         />
         <h2>Edit Job</h2>
-        <JobUploadForm isAddMode={false} apiKey={apiKey} data={data} />
+        <JobUploadForm isAddMode={false} data={data} />
       </div>
       <footer>
         <p>
