@@ -72,7 +72,7 @@ const onClick = async (id: string, router: NextRouter) => {
 };
 
 // jobs columns for table
-export const TableHeaderColumns = (router: NextRouter): TableColumn<IJob>[] => {
+export const AdminTableHeaderColumns = (router: NextRouter): TableColumn<IJob>[] => {
   return [
     {
       name: 'Title',
@@ -125,6 +125,54 @@ export const TableHeaderColumns = (router: NextRouter): TableColumn<IJob>[] => {
           </button>
         );
       },
+    },
+  ];
+};
+
+// jobs columns for table
+export const TableHeaderColumns = (): TableColumn<IJob>[] => {
+  return [
+    {
+      name: 'Title',
+      selector: (row: IJob) => row.title,
+      sortable: true,
+    },
+    {
+      name: 'Location',
+      selector: (row: IJob) => row.address,
+      sortable: true,
+    },
+    {
+      name: 'Start',
+      selector: (row: IJob) => new Date(row.datetime__start!).toLocaleString(),
+      sortable: true,
+    },
+    {
+      name: 'End',
+      selector: (row: IJob) => new Date(row.datetime__end!).toLocaleString(),
+      sortable: true,
+    },
+    {
+      name: 'Pay',
+      selector: (row: IJob) => `£${row.pay / 100}`,
+      sortable: true,
+    },
+    {
+      name: 'Occupation',
+      selector: (row: IJob) => _.capitalize(row.occupation),
+      sortable: true,
+    },
+    {
+      width: '30rem',
+      name: 'Description',
+      sortable: true,
+      selector: (row: IJob) => DOMPurify.sanitize(row.description ?? ''),
+      cell: (row: IJob) => (
+        <div
+          className="job__table-description"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(row.description != '' ? row.description! : DOMPurify.sanitize('<b>N/A</b>')) }}
+        ></div>
+      ),
     },
   ];
 };

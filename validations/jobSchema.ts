@@ -8,20 +8,10 @@ export const jobSchema = () => {
       address: z
         .string({
           errorMap: () => {
-            return { message: '' };
+            return { message: 'Expected address to be a string' };
           },
         })
-        .min(1, { message: '' }),
-      lat: z.number({
-        errorMap: () => {
-          return { message: '' };
-        },
-      }),
-      lng: z.number({
-        errorMap: () => {
-          return { message: '' };
-        },
-      }),
+        .min(1, { message: 'Expected the address to be more than one letter' }),
       datetime__start: z.date({
         errorMap: () => {
           return { message: 'Expected a valid start date to be selected' };

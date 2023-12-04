@@ -6,15 +6,16 @@ import { IJob } from '@/interfaces/job.interface';
 import { onClickDelete } from './TableHelper';
 import { useToasts } from '../Helper';
 
-const AdminJobTable = ({
+const JobTable = ({
   data,
   columns,
   setData,
+  isAdmin
 }: {
   data: IJob[];
   columns: TableColumn<IJob>[];
   setData: Dispatch<SetStateAction<IJob[]>>;
-  setColumns: Dispatch<SetStateAction<TableColumn<IJob>[]>>;
+  isAdmin: boolean
 }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -43,12 +44,13 @@ const AdminJobTable = ({
           }
         }}
         actions={
+          isAdmin ?
           <button
             className={selectedRows.length > 0 ? 'job__table-delete-action' : 'hidden'}
             onClick={() => onClickDelete(selectedRows, setSelectedRows, data, setData, toggledClearRows, setToggledClearRows, setSuccess, setError)}
           >
             <FaTrash size={20} />
-          </button>
+          </button> : undefined
         }
         responsive
         className="job__table"
@@ -57,7 +59,7 @@ const AdminJobTable = ({
         columns={columns}
         data={data}
         dense
-        selectableRows
+        selectableRows={isAdmin ? true : false}
         pagination
         clearSelectedRows={toggledClearRows}
         progressPending={pending}
@@ -67,4 +69,4 @@ const AdminJobTable = ({
   );
 };
 
-export default AdminJobTable;
+export default JobTable;

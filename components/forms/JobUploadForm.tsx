@@ -38,14 +38,12 @@ const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
     setError(null); // Clear previous errors when a new request starts
 
     // query place details
-    let address, lat, lng;
+    let address;
     try {
       const response = await fetch(`../api/google/place-details?query=${location}`);
       const placeDetailsJson = await response.json();
       address = placeDetailsJson.formatted_address;
-      lat = placeDetailsJson.geometry.location.lat;
-      lng = placeDetailsJson.geometry.location.lng;
-    } catch (e) {
+     } catch (e) {
       console.log(e);
     }
 
@@ -55,8 +53,6 @@ const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
           title,
           location,
           address,
-          lat,
-          lng,
           datetime__start: dateStart ? dateStart.toISOString() : '',
           datetime__end: dateEnd ? dateEnd.toISOString() : '',
           pay: pay[1].toString(),
@@ -69,8 +65,6 @@ const JobUploadForm = (props: { data?: IJob; isAddMode: boolean }) => {
       formData.append('title', title);
       formData.append('location', location);
       formData.append('address', address);
-      formData.append('lat', lat);
-      formData.append('lng', lng);
       formData.append('datetime__start', dateStart?.toString() ?? '');
       formData.append('datetime__end', dateEnd?.toString() ?? '');
       formData.append('pay', pay[1].toString());

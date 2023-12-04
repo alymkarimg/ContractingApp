@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { TableHeaderColumns } from '@/components/tables/TableHelper';
+import { AdminTableHeaderColumns } from '@/components/tables/TableHelper';
 import { IJob } from '@/interfaces/job.interface';
 import { NextRouter } from 'next/router';
 import { TableColumn } from 'react-data-table-component';
@@ -35,7 +35,7 @@ type GetJobs = (
 ) => void;
 
 // get jobs
-export const getJobs: GetJobs = async (setData, cols, myJobs = false) => {
+export const getJobs: GetJobs = async (setData, columns, myJobs = false) => {
   try {
     // if cols, set columns
     const response = myJobs ? await fetch(`../api/jobs/myJobs`) : await fetch(`../api/jobs/allJobs`);
@@ -43,9 +43,9 @@ export const getJobs: GetJobs = async (setData, cols, myJobs = false) => {
 
     if (response.ok) {
       setData(jobs.data);
-      if (cols) {
-        const { setColumns, router } = cols;
-        setColumns ? setColumns(TableHeaderColumns(router)) : undefined;
+      if (columns) {
+        const { setColumns, router } = columns;
+        setColumns ? setColumns(AdminTableHeaderColumns(router)) : undefined;
       }
     }
   } catch (e) {

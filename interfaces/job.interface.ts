@@ -3,9 +3,7 @@ export interface IJob {
   __v: string;
   title: string;
   location: string;
-  address: string;
-  lat: number;
-  lng: number;
+  address: string;  
   userId?: string;
   datetime__start?: string;
   datetime__end?: string;
